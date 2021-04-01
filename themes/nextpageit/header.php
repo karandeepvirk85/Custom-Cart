@@ -1,19 +1,21 @@
 <!doctype html>
 <html <?php language_attributes(); ?>>
+<!--HEAD-->
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<?php wp_head(); ?>	
 </head>
 
+<!--Site Header-->
 <header>
 	
+	<!--Top Notification Bar-->	
 	<div class="top-notification-bar">
 		<p>Get Free Giftcard For online Shoping</p>
 	</div>
 
+	<!--Site Desktop Top Menu-->
 	<div class="header-container-desktop">
 		<div class="left-container">
 			<div class="logo-container">
@@ -44,7 +46,8 @@
 			<?php get_template_part( 'nextpage-templates/searchform' ); ?>
 		</div>
 	</div>
-	
+
+	<!--Site Mobile Top Menu-->
 	<div class="header-container-mobile">
 		<div class="top-mobile-container">
 			<div class="left-logo-container">
@@ -52,7 +55,7 @@
 					<img  alt="Site logo" src="<?php echo get_template_directory_uri()?>/images/site-logo.png">
 				</a>
 			</div>
-			<div class="right-button-container" onclick="objMenu.MobileMenuOpenClose()">
+			<div class="right-button-container" onclick="objTheme.MobileMenuOpenClose()">
 				<i class="fa fa-bars" id="menu-fa-icon" aria-hidden="true"></i>
 			</div>
 		</div>
@@ -74,4 +77,6 @@
 		</div>
 	</div>
 </header>
+
+<!--Body Start-->
 <body>

@@ -14,6 +14,7 @@ add_action('init', 'includeThemeControllers');
 add_action( 'wp_enqueue_scripts', 'themeStyles');
 add_action( 'wp_enqueue_scripts', 'themeScripts');
 add_action('wp_head', 'setAjaxUrl');
+add_action('wp_head','setHomeUrl');
 add_action('init', 'registerCartSession');
 
 function includeThemeControllers(){
@@ -39,6 +40,10 @@ function themeScripts() {
 function setAjaxUrl() {
    echo '<script type="text/javascript"> var ajaxurl = "' . admin_url('admin-ajax.php') . '";</script>';
 }
+
+function setHomeUrl() {
+	echo '<script type="text/javascript"> var homeurl = "' .home_url(). '";</script>';
+ }
 
 function registerCartSession(){
   if(!session_id()){

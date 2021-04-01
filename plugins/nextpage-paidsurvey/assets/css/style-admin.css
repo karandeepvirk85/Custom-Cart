@@ -8,7 +8,9 @@
 table.text-check {
   width: 100%;
 }
-
+.order-image {
+  width: 50px;
+}
 table.text-check td {
   padding: 0 15px 0 0;
 }

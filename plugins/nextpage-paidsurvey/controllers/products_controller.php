@@ -142,12 +142,15 @@ Class Products_Controller {
         $arrReturn = array(
             'error' => false,
             'errors_messages' => array(),
+            'error_string' => '',
             'success_message' => '',
             'product_id' => '',
             'quantity' => ''
         );
+        $strHtmlErrors = '';
+
         if(isset($_GET['post_id']) AND isset($_GET['quantity'])) {
-            $intProductId      = (int) $_GET['post_id'];
+            $intProductId   = (int) $_GET['post_id'];
             $intQuantity    = (int) $_GET['quantity'];
             if($intProductId<=0){
                 $arrReturn['error'] = true;
@@ -170,6 +173,10 @@ Class Products_Controller {
                     $arrReturn['success_message'] = $arrCallBack['success_message'];
                 }
             }
+            if(!empty($arrReturn['errors_messages'])){
+                $strHtmlErrors .= implode('<br>',$arrReturn['errors_messages']);
+                $arrReturn['error_string'] = $strHtmlErrors;
+            }
         }
         echo json_encode($arrReturn);
         die;
@@ -191,10 +198,10 @@ Class Products_Controller {
             $intOldQuantity = $_SESSION['cart']['products'][$intProductId];
             $intTotalQuantity = $intOldQuantity+$intQuantity;
             $_SESSION['cart']['products'][$intProductId] = $intTotalQuantity;
-            $arrReturn['success_message'] = 'Your cart has been updated. you have '.$intTotalQuantity.' items in your cart.';
+            $arrReturn['success_message'] = '<i class="fa fa-hand-o-right" aria-hidden="true"></i> Your cart has been updated. you have '.$intTotalQuantity.' items in your cart.';
         }else{
             $_SESSION['cart']['products'][$intProductId] = $intQuantity;
-            $arrReturn['success_message'] = $intQuantity.' item has been added to the cart.';
+            $arrReturn['success_message'] = '<i class="fa fa-hand-o-right" aria-hidden="true"></i> '.$intQuantity.' item has been added to the cart.';
         }
 
         $arrReturn['product_id'] = $intProductId;
@@ -208,6 +215,34 @@ Class Products_Controller {
         if(!empty($_SESSION['cart'])){
             return $_SESSION['cart']['products'];
         }
+    }
+
+    /**
+     * Get Cart Total
+     */
+    public static function getCartTotalPoints(){
+        $intReturn = 0;
+        $arrCart = self::getCartFromSession();
+        if(!empty($arrCart)){
+            foreach($arrCart as $key => $strValue){
+                $intReturn += $strValue*self::getPoints($key);
+            }
+        }
+        return $intReturn;
+    }
+
+    /**
+     * Get Cart Total Products
+     */
+    public static function getCartTotalProducts(){
+        $intReturn = 0;
+        $arrCart = self::getCartFromSession();
+        if(!empty($arrCart)){
+            foreach($arrCart as $key => $strValue){
+                $intReturn += $strValue;
+            }
+        }
+        return $intReturn;
     }
 }
 

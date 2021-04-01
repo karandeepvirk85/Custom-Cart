@@ -63,7 +63,7 @@ class Login_Controller{
       $strPassword = $arrUsers['password'];
       $strUser = $strEmail.'_user';
         if(email_exists($strEmail) == false) {
-          $userId = (int) wp_create_user($strUser,$strPassword,$strEmail);
+          $userId = wp_create_user($strUser,$strPassword,$strEmail);
           if($userId>0){
               $objUser = get_user_by('id', $userId);
               $objUser->remove_role('subscriber'); 
@@ -92,6 +92,6 @@ class Login_Controller{
           }
         }
       }
-  }
+    }
 new Login_Controller;
 ?>

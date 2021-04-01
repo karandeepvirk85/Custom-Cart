@@ -28,7 +28,7 @@ get_header();
             </div>  
             <div class="single-product-add-to-cart">
                 <button class ="add-to-cart" data-id="<?php echo $post->ID;?>">Add To Cart</button>
-                <a class="hide-button animate__fadeInUp animate__animated" href="<?php echo home_url()?>/cart">View Cart</a>
+                <a class="hide-button animate__fadeInUp animate__animated" href="<?php echo home_url()?>/cart">View Cart <i class="fa fa-cart-plus" aria-hidden="true"></i></a>
             </div>
             <div class="product-short-description">
                 <?php echo Products_Controller::getShortDescription($post->ID); ?>
@@ -36,8 +36,8 @@ get_header();
         </div>
     </div>
     <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'full-description')" id="defaultOpen">Description</button>
-        <!-- <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button> -->
+        <button class="tablinks" onclick="objTheme.openTab(event, 'full-description')" id="defaultOpen">Description</button>
+        <!-- <button class="tablinks" onclick="objTheme.openTab(event, 'Paris')">Paris</button> -->
     </div>
 
     <div id="full-description" class="tabcontent">

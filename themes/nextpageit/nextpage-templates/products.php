@@ -3,7 +3,7 @@
  * Display Products
  */
 ?>
-<div class="product-main-container">
+<div class="product-main-container" data-permalink ="<?php echo get_permalink($post->ID);?>">
     <div class="image-container-outer">
         <div class="image-container-inner" style="background-image:url(<?php echo Theme_Controller::getPostImage($post->ID,'medium');?>);"></div>
     </div>

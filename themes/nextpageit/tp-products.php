@@ -1,33 +1,25 @@
 <?php 
 /**
  * Template Name: Products
+ * 
  */
 
-// Get Site Header
 get_header();
-// Set Empty Array
-$arrProducts = array();
-// Get All Products
 if(class_exists('Theme_Controller')){
+    // Get Paged Query
     $paged = Theme_Controller::getPagedQuery();
-}
-if(class_exists('Product')){
-    $arrProducts = Product::getProducts($paged);
+    // Get Posts Query
+    $arrProducts = Theme_Controller::getAllPosts($paged,'shop_product');
     // Set Args for Pagination
-    $args = array(
-        'paged' => $paged,
-        'max_num_pages' => $arrProducts->max_num_pages
-    );
+    $args = Theme_Controller::getArgsForPagination($paged, $arrProducts->max_num_pages);
 }
-$intCount = 0;
 ?>
+
 <div class="page-container">
-    <?php
-        get_template_part( 'template-parts/content/content-page');
-    ?>
+    <?php get_template_part( 'template-parts/content/content-page');?>
+    
     <div class="products-row">
         <?php if ($arrProducts->have_posts()){
-            $intCount = 0;
             while ($arrProducts->have_posts() ) : $arrProducts->the_post();
                 get_template_part('nextpage-templates/products');
             endwhile;
@@ -35,6 +27,7 @@ $intCount = 0;
         }
         ?>
     </div>
+
     <div class="row">
         <!-------INLUDE PAGINATION------->
         <div class="col-md-12 pagination-container">

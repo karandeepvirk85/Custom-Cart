@@ -178,8 +178,111 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   /* Style the tab content */
   /* Style the close button */
 }
+.page-container .cart-bottom-part .cart-summary {
+  background-color: #cecece;
+  display: flex;
+  justify-content: flex-end;
+  color: black;
+  padding: 1rem;
+}
+.page-container .cart-bottom-part .cart-summary button {
+  background-color: #1ee08d;
+  color: white;
+  border-radius: 100px;
+  padding: 16px 5rem;
+}
+.page-container .cart-checkout-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.page-container .cart-checkout-container button {
+  background-color: #1ee08d;
+  padding: 10px 5rem;
+  border: none;
+  color: white;
+  border-right: 100px;
+}
+.page-container .checkout-user-details {
+  margin-top: 60px;
+  background-color: white;
+  box-shadow: 0px 0px 0px 0px #000000;
+}
+.page-container .checkout-user-details .checkout-info {
+  padding: 30px 15%;
+  background-color: #f0fcff;
+  display: flex;
+  justify-content: space-between;
+}
+.page-container .checkout-user-details .checkout-info p {
+  font-size: 1.4rem;
+  color: #0f444c;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
+.page-container .checkout-user-details .checkout-info p span {
+  font-size: 1.6rem;
+  font-weight: "Montserrat", sans-serif;
+  font-weight: 800;
+  margin-right: 10px;
+}
+.page-container .empty-cart-container {
+  margin-top: 20px;
+}
+.page-container .cart-meta-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 60px;
+  border-bottom: 2px solid #f3f3f3;
+  padding: 0rem 2rem;
+  border-radius: 3px;
+}
+.page-container .cart-meta-container .cart-meta-info {
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+}
+.page-container .cart-meta-container .cart-meta-info p {
+  border-bottom: 1px solid #bbbbbb;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.6rem;
+  margin: 5px 0;
+}
+.page-container .back-to-products {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+.page-container .back-to-products a {
+  border: none;
+  font-family: "Montserrat", sans-serif;
+  padding: 16px 4rem;
+  border-radius: 100px;
+  background-color: #6a3494;
+  color: white;
+}
+.page-container .proceed-to-checkout {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+.page-container .proceed-to-checkout a {
+  border: none;
+  padding: 16px 4rem;
+  border-radius: 100px;
+  background-color: #6a3494;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+}
 .page-container #cart-table_wrapper {
   margin-top: 60px;
+}
+.page-container #cart-table_wrapper tbody tr img {
+  width: 60px;
 }
 .page-container #cart-table_wrapper input[type=search] {
   background: white;
@@ -254,10 +357,16 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   margin-top: 8px;
   padding: 1rem;
   border-radius: 2px;
-  background-color: #404040;
-  color: white;
   display: none;
   font-family: "Lato", sans-serif;
+}
+.page-container .single-product-container .single-product-cart-container p.after-ajax-call-message.success {
+  background-color: #1e6622;
+  color: white;
+}
+.page-container .single-product-container .single-product-cart-container p.after-ajax-call-message.error {
+  background-color: #ff8181;
+  color: #ffffff;
 }
 .page-container .single-product-container .single-product-cart-container .single-product-title h2 {
   font-family: "Montserrat", sans-serif;

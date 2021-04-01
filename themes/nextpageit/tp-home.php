@@ -4,7 +4,12 @@
  */
 get_header();
 if(class_exists('Theme_Controller')){
+    // Get Paged Query
     $paged = Theme_Controller::getPagedQuery();
+    // Get Posts Query
+    $allPostsWPQuery = Theme_Controller::getAllPosts($paged,'post');
+    // Set Args for Pagination
+    $args = Theme_Controller::getArgsForPagination($paged,$allPostsWPQuery->max_num_pages);
 }
 ?>
 
@@ -14,24 +19,7 @@ if(class_exists('Theme_Controller')){
         get_template_part( 'template-parts/header/entry-header' ); 
         // Include Page Content
         get_template_part( 'template-parts/content/content-page' ); 
-        // Get Posts Query
-        $allPostsWPQuery = new WP_Query(
-            array(
-                'post_type'     =>'post', 
-                'post_status'   =>'publish', 
-                'posts_per_page'=> 6,
-                'paged'         => $paged,
-                'orderby'       => 'date',
-                'order'         => 'DESC',
-            )
-        );
-        // Set Args for Pagination
-        $args = array(
-            'paged' => $paged,
-            'max_num_pages' => $allPostsWPQuery->max_num_pages
-        );
     ?>
-    
     <div class="row">
         <div class="col-md-9">
             <div class="row posts-row">
@@ -50,15 +38,15 @@ if(class_exists('Theme_Controller')){
                 <?php } ?>
             </div>
         </div>
-
-        <div class="col-md-3 sidbar-container">
-            <!-------INLUDE SIDE BAR------->
+        
+        <!-------INLUDE SIDE BAR------->
+        <div class="col-md-3 sidbar-container">    
             <?php  get_template_part('nextpage-templates/nextpagesidebar');?>
         </div>    
     </div>
 
-    <div class="row">
-        <!-------INLUDE PAGINATION------->
+    <!-------INLUDE PAGINATION------->
+    <div class="row">    
         <div class="col-md-12 pagination-container">
             <?php get_template_part( 'nextpage-templates/nextpage','custom_pagination',$args); ?>
         </div>
