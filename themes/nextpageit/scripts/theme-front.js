@@ -1,16 +1,110 @@
 $(document).ready(function () {
+  getDataFromApi();
+
+  // Init Data Table Cart
   if ($("#cart-table").length) {
     cartInit();
   }
+  // Go to Sinle View
+  if ($(".product-main-container").length) {
+    $(".product-main-container").click(function () {
+      goToSingleView(this);
+    });
+  }
 
-  $(".product-main-container").click(function () {
-    goToSingleView(this);
-  });
-
+  /**
+   *  Cart Init Data Table
+   */
   function cartInit() {
     $("#cart-table").DataTable();
   }
 
+  /**
+   * Asynchronous Request Get Data
+   */
+  function getDataFromApi() {
+    let responseData = "";
+    // Set Url
+    var strUrl = "https://survey-api.npit.at/api/User/Me";
+    // Init XMLHttpRequest
+    var objRequest = new XMLHttpRequest();
+    // Open Request
+    objRequest.open("POST", strUrl);
+    // Set Request Header Data Type
+    objRequest.setRequestHeader("Accept", "application/json");
+    // Set Request Type Header
+    objRequest.setRequestHeader(
+      "Authorization",
+      "Bearer 9da12e9d-76a2-4c55-a4ae-ce97fcfda8c1"
+    );
+    // Set Content Type
+    objRequest.setRequestHeader("Content-Type", "");
+    // Request On Ready State Change
+    objRequest.onreadystatechange = function () {
+      if (objRequest.readyState === 4) {
+        if (objRequest.status == 200) {
+          responseData = objRequest.responseText;
+          if (responseData.length > 0) {
+            responseData = JSON.parse(responseData);
+            showUserHeader(responseData);
+            showAccountInfo(responseData);
+          }
+        }
+      }
+    };
+    objRequest.send();
+  }
+
+  /**
+   * Show User Account Information
+   */
+
+  function showAccountInfo(responseData) {
+    $(".spinner-container").hide();
+
+    if ($("#account_first_name").length > 0) {
+      $("#account_first_name").html(responseData.data.firstName);
+    }
+    if ($("#account_last_name").length > 0) {
+      $("#account_last_name").html(responseData.data.lastName);
+    }
+    if ($("#account_response_id").length > 0) {
+      $("#account_response_id").html(responseData.data.id);
+    }
+    if ($("#account_password").length > 0) {
+      $("#account_password").html(responseData.data.password);
+    }
+    if ($("#account_email").length > 0) {
+      $("#account_email").html(responseData.data.email);
+    }
+    if ($("#account_phone_number").length > 0) {
+      $("#account_phone_number").html(responseData.data.pointBalance);
+    }
+    if ($("#account_user_points").length > 0) {
+      $("#account_user_points").html(responseData.data.pointBalance);
+    }
+    if ($(".account-info-container").length > 0) {
+      $(".account-info-container").show();
+    }
+  }
+
+  /**
+   * Show User Header Information
+   */
+  function showUserHeader(responseData) {
+    $(".user-meta-spinner").hide();
+    $(".user-meta-name").html(
+      responseData.data.firstName + " " + responseData.data.lastName
+    );
+    $(".user-meta-points").html(
+      "<strong>Points: </strong> " + responseData.data.pointBalance
+    );
+  }
+
+  /**
+   * Go to Single View
+   * @param {*} objThis
+   */
   function goToSingleView(objThis) {
     var permalink = $(objThis).data("permalink");
     if (permalink.length > 0) {
@@ -60,6 +154,7 @@ $(document).ready(function () {
   var objCart = {
     buttonAddToCart: $(".add-to-cart"),
     buttonCheckout: $(".checkout-and-reedem"),
+    removeItemButton: $(".remove-item-from-cart"),
 
     /**
      * Init Function
@@ -70,6 +165,10 @@ $(document).ready(function () {
       });
       this.buttonCheckout.click(function () {
         objCart.checkOutUser();
+      });
+      this.removeItemButton.click(function () {
+        var intProductId = parseInt($(this).data("id"));
+        objCart.removeItemFromCart(intProductId);
       });
     },
 
@@ -111,11 +210,13 @@ $(document).ready(function () {
           if (response.success_message.length > 0) {
             $(".hide-button").removeClass("hide-button");
             $(".after-ajax-call-message").addClass("success");
+            $(".after-ajax-call-message").removeClass("error");
             $(".after-ajax-call-message").html(response.success_message);
             $(".after-ajax-call-message").show();
           }
           if (response.error_string.length > 0 && response.error == true) {
             $(".after-ajax-call-message").html(response.error_string);
+            $(".after-ajax-call-message").removeClass("success");
             $(".after-ajax-call-message").addClass("error");
             $(".after-ajax-call-message").show();
           }
@@ -124,7 +225,33 @@ $(document).ready(function () {
     },
 
     /**
-     * Checkout User
+     * Remove Item from cart
+     * @param {*} intProductId
+     */
+    removeItemFromCart: function (intProductId) {
+      if (intProductId > 0) {
+        var objData = {
+          action: "remove_item_from_cart",
+          product_id: intProductId,
+        };
+        $.getJSON(ajaxurl, objData, function (response) {
+          if (response.success == true) {
+            $("#remove-" + response.product_id).remove();
+            objCart.updateCartMeta(
+              response.total_products,
+              response.total_points
+            );
+          }
+        });
+      }
+    },
+    updateCartMeta: function (intUpdatedProducts, intUpdatedPoints) {
+      $("#cart-meta-products").text(intUpdatedProducts);
+      $("#cart-meta-points").text(intUpdatedPoints);
+    },
+
+    /**
+     *
      */
     checkOutUser: function () {
       objCart.buttonCheckout.hide();

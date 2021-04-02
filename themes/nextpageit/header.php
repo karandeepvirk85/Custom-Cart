@@ -9,7 +9,6 @@
 
 <!--Site Header-->
 <header>
-	
 	<!--Top Notification Bar-->	
 	<div class="top-notification-bar">
 		<p>Get Free Giftcard For online Shoping</p>
@@ -44,6 +43,15 @@
 				?>
 			</div>
 			<?php get_template_part( 'nextpage-templates/searchform' ); ?>
+			<div class="user-meta-information">
+				<div class="user-meta-spinner"><i class="fa-spin fa fa-cog" aria-hidden="true"></i></div>
+				<div class="user-meta-name">
+				
+				</div>
+				<div class="user-meta-points">
+				
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -77,6 +85,5 @@
 		</div>
 	</div>
 </header>
-
 <!--Body Start-->
 <body>

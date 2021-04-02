@@ -14,8 +14,10 @@ Class User_Controller {
     );
 
     public function __construct() {
-        static::createPostType();
-        static::createMetaBoxes();
+        // static::createPostType();
+        // static::createMetaBoxes();
+        // add_action('wp_ajax_set_user_login_session', array(__CLASS__, 'setUserSession'));
+        // add_action('wp_ajax_nopriv_set_user_login_session', array(__CLASS__, 'setUserSession'));
     }
 
     /**
@@ -30,7 +32,8 @@ Class User_Controller {
             'menu_position' => 34,
             'menu_icon' => 'dashicons-image-filter',
             'supports' => array(
-                'thumbnail',
+                'title',
+                'thumbnail'
             ),
         );
 
@@ -64,12 +67,6 @@ Class User_Controller {
         
         $arrUsers = array(
             array(
-                'name' => 'name',
-                'label' => 'User Name',
-                'description' => 'User Name',
-                'type' => 'text',
-            ),
-            array(
                 'name' => 'email',
                 'label' => 'Email',
                 'description' => 'User Email',
@@ -81,7 +78,20 @@ Class User_Controller {
                 'description' => 'User Password',
                 'type' => 'text',
             ),
+            array(
+                'name' => 'phone',
+                'label' => 'Phone',
+                'description' => 'User Phone',
+                'type' => 'text',
+            ),
+            array(
+                'name' => 'points_balance',
+                'label' => 'User Points',
+                'description' => 'User Points Last Time API Hit',
+                'type' => 'number',
+            ),
         );
+
         // Create general info metabox
         static::$objPostType->add_meta_box(
             'meta_information',
@@ -90,6 +100,75 @@ Class User_Controller {
             'normal',
             'default'
         );
+    }
+    
+    /**
+     * Set User In Wp Session 
+     */
+    public static function setUserSession(){
+        // $arrUserData = Login_Controller::getDataFromToken();
+        if(!empty($arrUserData)){
+            $strFirstName   = (string) $arrUserData['first_name'];
+            $strLastName    = (string) $arrUserData['last_name'];
+            $strUserEmail   = $arrUserData['email'];
+            $strPassword    = (string) $arrUserData['password'];
+            $strPhone       = (string) $arrUserData['phone'];
+            $intUserPoints  = (int) $arrUserData['points_balance'];
+            $intUserId      = (int) $arrUserData['id'];
+            $intFieldId     = (int) $arrUserData['file_id'];
+
+            if(self::checkIfUserExists($strUserEmail)){
+                $_SESSION['user'] = array(
+                    'user_email' => $strUserEmail,
+                    'user_points' => $intUserPoints,
+                    'first_name' => $intUserPoints,
+                );      
+            }
+            else{
+                // Insert User Post
+                $arrUser = array(
+                    'post_type' => 'shop_user',
+                    'post_title' => $strFirstName.' '.$strLastName,
+                    'post_status' => 'publish',
+                    'post_content'=> 'Wordpress User'
+                );
+
+                $intNewUserId = wp_insert_post($arrUser);
+                if(!empty($intNewUserId)){
+                    update_post_meta($intNewUserId,'_meta_information_email',$strUserEmail);
+                    update_post_meta($intNewUserId,'_meta_information_password',$strPassword);
+                    update_post_meta($intNewUserId,'_meta_information_phone',$strPhone);
+                    update_post_meta($intNewUserId,'_meta_information_points_balance',$intUserPoints);
+                    update_post_meta($intNewUserId,'_meta_information_ref_id',$intUserId);
+                    update_post_meta($intNewUserId,'_meta_information_field_id',$intFieldId);
+                }
+            }
+        }
+        
+    }
+
+    /**
+     * Check if User Exists
+     */
+    public static function checkIfUserExists($strUserEmail){
+        $bolReturn = true;
+        $args = array(
+            'post_type' => 'shop_user',
+            'meta_query' => array(
+                array(
+                    'key' => '_meta_information_email',
+                    'value' => $strUserEmail,
+                    'compare' => '='
+                ),
+            )
+        );
+        $arrPosts = get_posts($args);
+
+        if(empty($arrPosts)){
+            $bolReturn = false;
+        }
+
+        return $bolReturn;
     }
 }
 

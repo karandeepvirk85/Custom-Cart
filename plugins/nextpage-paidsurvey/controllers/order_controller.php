@@ -17,6 +17,9 @@ Class Order_Controller {
     public function __construct() {
         static::createPostType();
         static::createMetaBoxes();
+        add_filter('manage_shop_order_posts_columns', array(__CLASS__,'orderColumns'));
+        add_action('manage_shop_order_posts_custom_column' ,array(__CLASS__,'orderColumnsContent'), 10, 2);
+        // add_filter('manage_edit-shop_order_sortable_columns',array(__CLASS__ ,'ManageSortableColumn'));
         add_action('wp_ajax_check_out_user', array(__CLASS__, 'checkOutUser'));
 	    add_action('wp_ajax_nopriv_check_out_user', array(__CLASS__, 'checkOutUser'));	
     }
@@ -98,6 +101,39 @@ Class Order_Controller {
         );
     }
 
+    /**
+     * Set Order Columns 
+     */
+    public static function orderColumns($arrColumns){
+        unset($arrColumns['date']);
+        $arrColumns['total_products'] = __('No. of Products', 'your_text_domain');
+        $arrColumns['total_points'] = __('No. of Points', 'your_text_domain');
+        $arrColumns['order_date'] = __('Order Date', 'your_text_domain');
+        
+        return $arrColumns;
+    }
+
+    /**
+     * Set Order Columns Content 
+     */
+    public static function orderColumnsContent($arrColumns, $intPostId){        
+        
+        if($arrColumns == 'total_products'){
+            $intMeta = get_post_meta($intPostId,'_meta_order_total_products',true);
+            echo $intMeta;
+        }
+
+        if($arrColumns == 'total_points'){
+            $intMeta = get_post_meta($intPostId,'_meta_order_total_points',true);
+            echo $intMeta;
+        }
+
+        if($arrColumns == 'order_date'){
+            $intMeta = get_the_time('d F Y (H:i A)',$intPostId);
+            echo $intMeta;
+        }
+    }
+
     public static function checkOutUser(){
         $arrReturn = array(
             'order_id' => '',
@@ -106,15 +142,19 @@ Class Order_Controller {
             'email' => '',
             'success' => false
         );
-        $arrCart = Products_Controller::getCartFromSession();
-        $intTotalPoints = Products_Controller::getCartTotalPoints();
-        $intTotalProducts = Products_Controller::getCartTotalProducts();
+        $arrCart                = Products_Controller::getCartFromSession();
+        $intTotalPoints         = Products_Controller::getCartTotalPoints();
+        $intTotalProducts       = Products_Controller::getCartTotalProducts();
+        
+        // Insert Order Post
         $arrOrder = array(
             'post_type' => 'shop_order',
             'post_status' => 'publish',
             'post_content'=> 'Wordpress Order'
         );
         $intOrderId = wp_insert_post($arrOrder);
+        
+        // Update Order Post
         if($intOrderId>0){
             wp_update_post(
                 array(
@@ -122,27 +162,63 @@ Class Order_Controller {
                     'ID' => $intOrderId
                 )
             );
+            // Update Order Meta
             update_post_meta($intOrderId,'_meta_order_information', $arrCart);
             update_post_meta($intOrderId,'_meta_order_total_points', $intTotalPoints);
             update_post_meta($intOrderId,'_meta_order_total_products', $intTotalProducts);
             update_post_meta($intOrderId,'_meta_order_order_status','completed');
             // update_post_meta($intOrderId,'_meta_order_order_email','Completed');
             // update_post_meta($intOrderId,'_meta_order_order_name','Completed');
+            
+            self::updateInventory();
             self::sendEmailToAdmin($intOrderId);
             self::sendEMailToUser($intOrderId);
-            
-            $arrReturn = array(
-                'order_id' => $intOrderId,
-                'points' => $intTotalPoints,
-                'products' => $intTotalProducts,
-                'email' => 'static@gmail.com',
-                'success' => true
-            );
-
+            $arrReturn = self::getReturnArray(
+                $intOrderId,
+                $intTotalPoints,
+                $intTotalProducts
+            );                
+            self::destroyCart();
             echo json_encode($arrReturn);
-
+            die;
         }
-        die;
+    }
+
+    /**
+     * Get Return Object
+     * 
+     */
+    public static function getReturnArray($intOrderId, $intTotalPoints, $intTotalProducts){
+        $arrReturn = array(
+            'order_id' => $intOrderId,
+            'points' => $intTotalPoints,
+            'products' => $intTotalProducts,
+            'email' => 'static@gmail.com',
+            'success' => true
+        );
+
+        return $arrReturn;
+    }
+
+    /**
+     * Update Inventory After Order 
+     */
+    public static function updateInventory(){
+        $arrCart = Products_Controller::getCartFromSession();
+        if(!empty($arrCart)){
+            foreach($arrCart as $key => $strValue){
+                $intAvailableProducts   = (int) Products_Controller::getAvailableProducts($key);
+                $intUpdatedProducts     = $intAvailableProducts - $strValue;
+                update_post_meta($key ,'_meta_information_points_qty', (int) $intUpdatedProducts);
+            }
+        }
+    }
+
+    /**
+     * This function empty the user cart after saving order post type 
+     */
+    public static function destroyCart(){
+        $_SESSION['cart'] = array();
     }
 
     /**

@@ -25,7 +25,7 @@ wp_footer(); ?>
 					if(count($arrMenu)>0){
 						foreach ($arrMenu as $arrMenuItems){
 							?>
-							<a id="<?php echo $arrMenuItems['id']?>" href="<?php echo $arrMenuItems['url']?>">
+							<a id="<?php echo $arrMenuItems['page_id']?>" href="<?php echo $arrMenuItems['url']?>">
 								<?php echo $arrMenuItems['title']?>
 							</a>
 						<?php }

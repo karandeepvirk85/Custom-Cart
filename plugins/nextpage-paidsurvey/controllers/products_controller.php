@@ -2,7 +2,7 @@
 // SEE THE README FOR DOCUMENTATION
 // Initialize the class objects, and add functionality
 
-Class Products_Controller {
+Class Products_Controller{
 
     public static $objPostType;
     public static $strPostType = 'shop_product';
@@ -17,7 +17,9 @@ Class Products_Controller {
         static::createPostType();
         static::createMetaBoxes();
         add_action('wp_ajax_add-product-to-cart', array(__CLASS__, 'AddToCart'));
-	    add_action('wp_ajax_nopriv_add-product-to-cart', array(__CLASS__, 'AddToCart'));	
+        add_action('wp_ajax_nopriv_add-product-to-cart', array(__CLASS__, 'AddToCart'));
+        add_action('wp_ajax_remove_item_from_cart', array(__CLASS__,'removeItemFromCart'));
+        add_action('wp_ajax_nopriv_remove_item_from_cart', array(__CLASS__,'removeItemFromCart'));	
     }
 
     /**
@@ -96,7 +98,7 @@ Class Products_Controller {
         );
     }
     /**
-     * Function to return product points
+     * Function to return product points from database
      * @param Post ID
      */
     public static function getPoints($intPostId){
@@ -109,7 +111,7 @@ Class Products_Controller {
     }
 
     /**
-     * Function to return available qty
+     * Function to return available qty from database
      * @param Post ID
      */
     public static function getAvailableProducts($intPostId){
@@ -147,11 +149,13 @@ Class Products_Controller {
             'product_id' => '',
             'quantity' => ''
         );
+
         $strHtmlErrors = '';
 
         if(isset($_GET['post_id']) AND isset($_GET['quantity'])) {
             $intProductId   = (int) $_GET['post_id'];
             $intQuantity    = (int) $_GET['quantity'];
+            $intAvailableProducts = (int) self::getAvailableProducts($intProductId);
             if($intProductId<=0){
                 $arrReturn['error'] = true;
                 $arrReturn['errors_messages'][] = 'Post id is missing';
@@ -159,6 +163,12 @@ Class Products_Controller {
             if($intQuantity<=0){
                 $arrReturn['error'] = true;
                 $arrReturn['errors_messages'][] = 'Quantity must be greater then zero';
+            }
+            $intProductsAlreadyInCart   = (int) self::getProductQuantityFromSession($intProductId); 
+            $intNewQuantity             = (int) $intProductsAlreadyInCart+$intQuantity;
+            if($intNewQuantity > $intAvailableProducts){
+                $arrReturn['error'] = true;
+                $arrReturn['errors_messages'][] = 'Sorry! Only '.$intAvailableProducts.'<strong> '.get_the_title($intProductId).'</strong>  are available to buy.';
             }
             if(!is_user_logged_in()){
                 $arrReturn['error'] = true;
@@ -218,6 +228,18 @@ Class Products_Controller {
     }
 
     /**
+     * Function to get total products in the session by product id 
+     */
+
+    public static function getProductQuantityFromSession($intProductId){
+        $intReturn = 0;
+        $arrCart = self::getCartFromSession();
+        if(!empty($arrCart)){
+            $intReturn = $_SESSION['cart']['products'][$intProductId];
+        }
+        return $intReturn;
+    }
+    /**
      * Get Cart Total
      */
     public static function getCartTotalPoints(){
@@ -243,6 +265,39 @@ Class Products_Controller {
             }
         }
         return $intReturn;
+    }
+
+    /**
+     * Remove Item From Cart
+     */
+    public static function removeItemFromCart(){
+        $arrReturn = array(
+            'product_id' => '',
+            'success' => false,
+            'total_products' =>'',
+            'total_points' => ''
+        );
+
+        if (isset($_GET['product_id'])){
+            $intProductId = $_GET['product_id'];
+            $arrCart = self::getCartFromSession();
+            if(!empty($arrCart)){
+                foreach($arrCart as $key => $strValue){
+                    if($key == $intProductId){
+                        unset($_SESSION['cart']['products'][$key]);
+                        $arrReturn = array(
+                            'product_id' => $intProductId,
+                            'success' => true,
+                        );
+                    }
+                }
+            }   
+        }
+        $arrReturn['total_products'] = self::getCartTotalProducts();
+        $arrReturn['total_points'] = self::getCartTotalPoints();
+
+        echo json_encode($arrReturn);
+        die;
     }
 }
 

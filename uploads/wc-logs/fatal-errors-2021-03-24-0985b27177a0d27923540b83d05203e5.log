@@ -1,0 +1,6 @@
+2021-03-24T08:59:56+00:00 CRITICAL syntax error, unexpected '<', expecting end of file in /opt/lampp/htdocs/paidsurvey/wp-content/themes/nextpageit/page.php on line 24
+
+2021-03-24T09:51:16+00:00 CRITICAL syntax error, unexpected ')' in /opt/lampp/htdocs/paidsurvey/wp-content/themes/nextpageit/header.php on line 30
+
+2021-03-24T10:02:01+00:00 CRITICAL syntax error, unexpected 'active' (T_STRING) in /opt/lampp/htdocs/paidsurvey/wp-content/themes/nextpageit/header.php on line 33
+
