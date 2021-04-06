@@ -12,8 +12,8 @@ get_header();
 ?>
 
 <div class="page-container">
-    <!--Get Page Content-->
-    <?php get_template_part( 'template-parts/content/content-page');?>
+    <?php get_template_part('nextpage-templates/entry-header');?> 
+    <?php get_template_part('nextpage-templates/content-page');?> 
     
     <!--Cart Back Buton To Products-->
     <div class="back-to-products">
@@ -22,10 +22,8 @@ get_header();
         </a>
     </div>
 
-    <!--If cart product is greater than zero-->
-    <?php if(!is_user_logged_in()){
-        echo Theme_Controller::getShakeError(Theme_Controller::$constantUserNotLoggedIn);
-     } else{
+    <p class="after-ajax-call-message"></p>
+    <?php 
         if($intProductsCount > 0){?> 
             <!--Get Cart Table-->
             <?php get_template_part('nextpage-templates/cart');?>
@@ -38,6 +36,5 @@ get_header();
         <?php } else{
             echo Theme_Controller::getShakeError(Theme_Controller::$constantCartEmpty);    
         }?>
-     <?php }?>
 </div>
 <?php get_footer();?>

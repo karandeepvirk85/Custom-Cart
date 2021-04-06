@@ -20,6 +20,8 @@ Class Products_Controller{
         add_action('wp_ajax_nopriv_add-product-to-cart', array(__CLASS__, 'AddToCart'));
         add_action('wp_ajax_remove_item_from_cart', array(__CLASS__,'removeItemFromCart'));
         add_action('wp_ajax_nopriv_remove_item_from_cart', array(__CLASS__,'removeItemFromCart'));	
+        add_filter('manage_shop_product_posts_columns', array(__CLASS__,'productColumns'));
+        add_action('manage_shop_product_posts_custom_column' ,array(__CLASS__,'productColumnsContent'), 10, 2);
     }
 
     /**
@@ -111,6 +113,40 @@ Class Products_Controller{
     }
 
     /**
+     * Set Product Columns 
+     */
+    public static function productColumns($arrColumns){
+        unset($arrColumns['date']);
+        $arrColumns['number_of_points'] = __('No. of Points', 'your_text_domain');
+        $arrColumns['quantity'] = __('Quantity', 'your_text_domain');
+        $arrColumns['order_date'] = __('Published Date', 'your_text_domain');
+        
+        return $arrColumns;
+    }
+
+    /**
+     * Set Order Columns Content 
+     */
+    public static function productColumnsContent($arrColumns, $intPostId){        
+        
+        if($arrColumns == 'number_of_points'){
+            $intMeta = get_post_meta($intPostId,'_meta_information_points_price',true);
+            echo $intMeta;
+        }
+
+        if($arrColumns == 'quantity'){
+            $intMeta = get_post_meta($intPostId,'_meta_information_points_qty',true);
+            echo $intMeta;
+        }
+
+        if($arrColumns == 'order_date'){
+            $intMeta = get_the_time('d F Y (H:i A)',$intPostId);
+            echo $intMeta;
+        }
+    }
+
+
+    /**
      * Function to return available qty from database
      * @param Post ID
      */
@@ -158,21 +194,17 @@ Class Products_Controller{
             $intAvailableProducts = (int) self::getAvailableProducts($intProductId);
             if($intProductId<=0){
                 $arrReturn['error'] = true;
-                $arrReturn['errors_messages'][] = 'Post id is missing';
+                $arrReturn['errors_messages'][] = Theme_Controller::getShakeError('Post id is missing');
             }
             if($intQuantity<=0){
                 $arrReturn['error'] = true;
-                $arrReturn['errors_messages'][] = 'Quantity must be greater then zero';
+                $arrReturn['errors_messages'][] = Theme_Controller::getShakeError('Quantity must be greater then zero');
             }
-            $intProductsAlreadyInCart   = (int) self::getProductQuantityFromSession($intProductId); 
-            $intNewQuantity             = (int) $intProductsAlreadyInCart+$intQuantity;
-            if($intNewQuantity > $intAvailableProducts){
+            // $intProductsAlreadyInCart   = (int) self::getProductQuantityFromSession($intProductId); 
+            // $intNewQuantity             = (int) $intProductsAlreadyInCart+$intQuantity;
+            if($intQuantity > $intAvailableProducts){
                 $arrReturn['error'] = true;
-                $arrReturn['errors_messages'][] = 'Sorry! Only '.$intAvailableProducts.'<strong> '.get_the_title($intProductId).'</strong>  are available to buy.';
-            }
-            if(!is_user_logged_in()){
-                $arrReturn['error'] = true;
-                $arrReturn['errors_messages'][] = 'User must be logged In tp purchace items';
+                $arrReturn['errors_messages'][] = Theme_Controller::getShakeError('Sorry! Only '.$intAvailableProducts.'<strong> '.get_the_title($intProductId).'</strong>  are available to buy.');
             }
             if($arrReturn['error'] === false){
                 if($intProductId>0 AND $intQuantity>0){
@@ -181,6 +213,9 @@ Class Products_Controller{
                     $arrReturn['product_id'] = $arrCallBack['product_id']; 
                     $arrReturn['quantity'] =  $arrCallBack['quantity'];
                     $arrReturn['success_message'] = $arrCallBack['success_message'];
+                    $arrReturn['product_points'] = $arrCallBack['product_points'];
+                    $arrReturn['total_products'] = $arrCallBack['total_products'];
+                    $arrReturn['total_points'] = $arrCallBack['total_points'];
                 }
             }
             if(!empty($arrReturn['errors_messages'])){
@@ -205,17 +240,20 @@ Class Products_Controller{
         );
 
         if((array_key_exists($intProductId,$_SESSION['cart']['products']))) {
-            $intOldQuantity = $_SESSION['cart']['products'][$intProductId];
-            $intTotalQuantity = $intOldQuantity+$intQuantity;
-            $_SESSION['cart']['products'][$intProductId] = $intTotalQuantity;
-            $arrReturn['success_message'] = '<i class="fa fa-hand-o-right" aria-hidden="true"></i> Your cart has been updated. you have '.$intTotalQuantity.' items in your cart.';
+            // $intOldQuantity = $_SESSION['cart']['products'][$intProductId];
+            // $intTotalQuantity = $intOldQuantity+$intQuantity;
+            $_SESSION['cart']['products'][$intProductId] = $intQuantity;
+            $arrReturn['success_message'] = Theme_Controller::getShakeSuccess('<i class="fa fa-hand-o-right" aria-hidden="true"></i> Your cart has been <strong> Updated </strong>. Now you have '.$intQuantity.' total items in your cart.');
         }else{
             $_SESSION['cart']['products'][$intProductId] = $intQuantity;
-            $arrReturn['success_message'] = '<i class="fa fa-hand-o-right" aria-hidden="true"></i> '.$intQuantity.' item has been added to the cart.';
+            $arrReturn['success_message'] =  Theme_Controller::getShakeSuccess('<i class="fa fa-hand-o-right" aria-hidden="true"></i> '.$intQuantity.' item has been added to the cart.');
         }
 
         $arrReturn['product_id'] = $intProductId;
-        $arrReturn['quantity'] = $intTotalQuantity;
+        $arrReturn['quantity'] = $intQuantity;
+        $arrReturn['product_points'] = $intQuantity * self::getPoints($intProductId);
+        $arrReturn['total_products'] = self::getCartTotalProducts();
+        $arrReturn['total_points'] = self::getCartTotalPoints();
         return $arrReturn;
     }
     /**
@@ -275,7 +313,8 @@ Class Products_Controller{
             'product_id' => '',
             'success' => false,
             'total_products' =>'',
-            'total_points' => ''
+            'total_points' => '',
+            'message' => ''
         );
 
         if (isset($_GET['product_id'])){
@@ -295,7 +334,7 @@ Class Products_Controller{
         }
         $arrReturn['total_products'] = self::getCartTotalProducts();
         $arrReturn['total_points'] = self::getCartTotalPoints();
-
+        $arrReturn['message'] = Theme_Controller::getShakeNotice('<strong>'.get_the_title($intProductId).'</strong> has been removed from your cart');
         echo json_encode($arrReturn);
         die;
     }

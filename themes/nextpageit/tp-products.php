@@ -16,8 +16,8 @@ if(class_exists('Theme_Controller')){
 ?>
 
 <div class="page-container">
-    <?php get_template_part( 'template-parts/content/content-page');?>
-    
+    <?php get_template_part('nextpage-templates/entry-header');?> 
+    <?php get_template_part('nextpage-templates/content-page');?> 
     <div class="products-row">
         <?php if ($arrProducts->have_posts()){
             while ($arrProducts->have_posts() ) : $arrProducts->the_post();

@@ -14,12 +14,8 @@ if(class_exists('Theme_Controller')){
 ?>
 
 <div class="page-container">
-    <?php 
-        // Include Entry Header
-        get_template_part( 'template-parts/header/entry-header' ); 
-        // Include Page Content
-        get_template_part( 'template-parts/content/content-page' ); 
-    ?>
+    <?php get_template_part('nextpage-templates/entry-header');?> 
+    <?php get_template_part('nextpage-templates/content-page');?> 
     <div class="row">
         <div class="col-md-9">
             <div class="row posts-row">

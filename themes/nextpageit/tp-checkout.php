@@ -50,31 +50,39 @@ get_header();
 // }
 ?>
 <div class="page-container">
+    <?php get_template_part( 'template-parts/header/entry-header');?> 
+    <?php get_template_part( 'template-parts/content/content-page');?> 
+    
     <div class="checkout-user-details">
-        <div class="checkout-info"> 
-            <div class="checkout-user-left">
-                <p><span>First Name:</span> Cynthia</p>
-                <p><span>Last Name:</span> Acosta</p>
-                <p><span>Email:</span> ampleuser@yopmail.com</p>
-                <p><span>Phone Number:</span> 918295458574</p>
-                <p><span>Type:</span> User</p>
+        <div class="spinner-container">
+            <div class="account-spinner"><i class="fa-spin fa-3x fa fa-cog" aria-hidden="true"></i></div>
+        </div>
+        <div class="account-info-container">
+            <div class="account-info-container-inner">
+                <p>First Name: <span id="account_first_name"></span></p>
+                <p>Last Name: <span id="account_last_name"></span></p>
+                <p>User ID: <span id="account_response_id"></span></p>
+                <p>Password: <span id="account_password"></span></p>
+                <p>Email: <span id="account_email"></span></p>
+                <p>Phone Number: <span id="account_phone_number"></span></p>
+                <p>User Points: <span id="account_user_points"></span></p>
             </div>
-            <div class="checkout-user-right">
-                <p><span>Address:</span> 74 Clarendon Extension</p>
-                <p><span>Location:</span> Ea id facilis odit q</p>
-                <p><span>Country:</span> Similique consequatu</p>
-                <p><span>State:</span> Non fugit sint dol</p>
-                <p><span>City:</span> TemTempor impedit ut lpor</p>
-                <p><span>Town:</span> lorem ipsum</p>
-                <p><span>Pincode:</span> 173</p>
+            <div class="account-info-container-inner">
+                <p>Country: <span id="account_country"></span><p>
+                <p>State: <span id="account_state"></span><p>
+                <p>City: <span id="account_city"></span><p>
+                <p>Town: <span id="account_town"></span><p>
+                <p>PinCode: <span id="account_pinCode"></span><p>
+                <p>Address1: <span id="account_address1"></span><p>
+                <p>Address2: <span id="account_address2"></span><p>
             </div>
         </div>
     </div>
-
+    <p class="after-ajax-call-message"></p>
     <div class="cart-bottom-part">
         <div class="cart-summary">
-            Total Products: <?php echo Products_Controller::getCartTotalPoints(); ?>
-            Total Points: <?php echo Products_Controller::getCartTotalProducts();?>
+            Total Products: <?php echo Products_Controller::getCartTotalProducts(); ?>
+            Total Points: <?php echo Products_Controller::getCartTotalPoints();?>
         </div>
     </div>
     <div class="cart-checkout-container">

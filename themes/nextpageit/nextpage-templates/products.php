@@ -13,6 +13,9 @@
     <div class="point-container">
         <p><strong>Points:</strong> <?php echo Products_Controller::getPoints($post->ID)?></p>
     </div>
+    <div class="point-container">
+        <p><strong>Available:</strong> <?php echo Products_Controller::getAvailableProducts($post->ID)?></p>
+    </div>
     <div class="button-container">
         <button>Reedem</button>
     </div>
