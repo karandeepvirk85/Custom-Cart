@@ -69,7 +69,7 @@ class Theme_Controller{
                 'posts_per_page'=> 8,
                 'paged'         => $paged,
                 'orderby'       => 'date',
-                'order'         => 'DESC',
+                'order'         => 'DESC',  
             )
         );
         return $allPostsWPQuery;
@@ -91,7 +91,11 @@ class Theme_Controller{
      */
     public static function getShakeError($string){
         $strHtml = '';
-        $strHtml .= '<div class="animate__animated animate__shakeX alert alert-danger empty-cart-container">'.$string.'</div>';
+        $strHtml .= 
+            '<div class="animate__animated animate__fadeInDown alert alert-danger alert-dismissible fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong><i class="fa fa-hand-o-right" aria-hidden="true"></i> Failure! </strong>'.$string.'.
+            </div>';
         return $strHtml;
     }
 
@@ -100,7 +104,11 @@ class Theme_Controller{
      */
     public static function getShakeSuccess($string){
         $strHtml = '';
-        $strHtml .= '<div class="animate__animated animate__fadeInDown alert alert-success empty-cart-container">'.$string.'</div>';
+        $strHtml .= 
+            '<div class="animate__animated animate__fadeInDown alert alert-success alert-dismissible fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong><i class="fa fa-hand-o-right" aria-hidden="true"></i> Success! </strong>'.$string.'.
+            </div>';
         return $strHtml;
     }
 
@@ -109,7 +117,11 @@ class Theme_Controller{
      */
     public static function getShakeNotice($string){
         $strHtml = '';
-        $strHtml .= '<div class="animate__animated animate__shakeX alert alert-warning empty-cart-container">'.$string.'</div>';
+        $strHtml .= 
+            '<div class="animate__animated animate__fadeInDown alert alert-warning alert-dismissible fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong><i class="fa fa-hand-o-right" aria-hidden="true"></i> '.$string.'.
+            </div>';
         return $strHtml;
     }
 

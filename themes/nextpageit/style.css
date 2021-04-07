@@ -203,6 +203,12 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   /* Style the tab content */
   /* Style the close button */
 }
+.page-container .checkout-bottom-part-animation {
+  display: none;
+}
+.page-container .alert {
+  margin-top: 10px;
+}
 .page-container .spinner-container {
   display: flex;
   justify-content: center;
@@ -212,39 +218,68 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 .page-container .spinner-container .account-spinner {
   color: #6a3494;
 }
-.page-container .account-info-container {
+.page-container .account-info-main {
   display: none;
-  justify-content: space-between;
-  margin: 10px 15%;
-  padding: 40px 5%;
-  box-shadow: 0px 0px 10px 10px #00000014;
-  background: white;
+  margin: 10px 6%;
+  padding: 20px 5% 40px 5%;
+  box-shadow: 0px 0px 2px 1px #00000014;
 }
-.page-container .account-info-container .account-info-container-inner {
-  display: none;
-}
-.page-container .account-info-container .account-info-container-inner p {
-  font-weight: 700;
-  font-family: "Lato", sans-serif;
+.page-container .account-info-main h2 {
+  margin: 0;
+  margin-bottom: 20px;
   color: #6a3494;
 }
-.page-container .account-info-container .account-info-container-inner p span {
+.page-container .account-info-main .account-info-container {
+  display: none;
+  justify-content: space-between;
+  background: #fbfbfb;
+  padding: 32px 2rem;
+}
+.page-container .account-info-main .account-info-container .account-info-container-inner {
+  display: none;
+}
+.page-container .account-info-main .account-info-container .account-info-container-inner p {
+  border-bottom: 1px solid #ebebeb;
+  padding: 0.6rem;
+  font-weight: 700;
+  font-family: "Playfair Display", serif;
+  color: black;
+}
+.page-container .account-info-main .account-info-container .account-info-container-inner p span {
   font-weight: 400;
   font-family: "Montserrat", sans-serif;
   color: black;
 }
-.page-container .cart-bottom-part .cart-summary {
-  background-color: #cecece;
+.page-container .cart-bottom-part {
+  padding: 2rem;
+  box-shadow: 0px 0px 2px 1px #00000014;
+}
+.page-container .cart-bottom-part .cart-details {
   display: flex;
   justify-content: flex-end;
-  color: black;
-  padding: 1rem;
+  flex-direction: column;
+  text-align: right;
+  font-family: "Montserrat", sans-serif;
 }
-.page-container .cart-bottom-part .cart-summary button {
-  background-color: #1ee08d;
-  color: white;
-  border-radius: 100px;
-  padding: 16px 5rem;
+.page-container .cart-bottom-part .cart-details p {
+  border-bottom: 1px solid #ededed;
+  font-size: 1.6rem;
+}
+.page-container .cart-bottom-part .cart-details p a {
+  color: #6a3494;
+}
+.page-container .cart-bottom-part .cart-details h2 {
+  margin: 0;
+  text-align: left;
+  color: #6a3494;
+}
+.page-container .cart-bottom-part .cart-summary {
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: flex-end;
+  color: #656565;
+  padding: 1rem;
+  font-size: 2rem;
 }
 .page-container .cart-checkout-container {
   display: flex;
@@ -256,12 +291,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   padding: 10px 5rem;
   border: none;
   color: white;
-  border-right: 100px;
+  border-radius: 100px;
 }
 .page-container .checkout-user-details {
   margin-top: 60px;
   background-color: white;
-  box-shadow: 0px 0px 0px 0px #000000;
 }
 .page-container .checkout-user-details .checkout-info {
   padding: 30px 15%;
@@ -335,7 +369,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   font-family: "Montserrat", sans-serif;
 }
 .page-container #cart-table_wrapper {
-  margin-top: 60px;
+  margin-top: 20px;
 }
 .page-container #cart-table_wrapper tbody .cart-qty-change {
   border-radius: 10px;
@@ -377,7 +411,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 .page-container .tab {
   margin-top: 60px;
   overflow: hidden;
-  box-shadow: 0px 0px 9px 3px #7353531c;
+  box-shadow: 0px 0px 2px 1px #00000014;
   background-color: #ffffff;
 }
 .page-container .tab button.tablinks {
@@ -416,7 +450,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   flex-direction: row;
   align-items: center;
   margin: 30px 0;
-  box-shadow: 0px 0px 14px 8px #0000000d;
+  box-shadow: 0px 0px 2px 1px #00000014;
   justify-content: space-around;
 }
 .page-container .single-product-container .single-product-image-container .single-product-image {
@@ -446,7 +480,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 .page-container .single-product-container .single-product-cart-container .single-product-title h2 {
   font-family: "Montserrat", sans-serif;
   font-size: 3rem;
-  text-shadow: 1px 1px 1px #6b489457;
   color: #6a3494;
   font-weight: 700;
   margin: 0;
@@ -454,18 +487,23 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 }
 .page-container .single-product-container .single-product-cart-container .single-product-select span {
   font-weight: 700;
-  font-size: 1.5rem;
-  font-family: "Open Sans", sans-serif;
+  font-size: 1.4rem;
+  font-family: "Montserrat", sans-serif;
+}
+.page-container .single-product-container .single-product-cart-container .single-product-select span#points-on-selection {
+  font-size: 1.3rem;
+  margin-left: 10px;
+  font-family: serif;
+  color: #636363;
 }
 .page-container .single-product-container .single-product-cart-container .single-product-select .product-quantity {
   background: white;
   color: gray;
   border: 1px solid #d2d2d2;
-  width: 100px;
-  height: 40px;
-  border-radius: 10px;
-  padding: 1rem;
-  margin: 0;
+  width: 65px;
+  height: 34px;
+  border-radius: 6px;
+  padding: 0rem 1rem;
   margin-top: 20px;
   margin-left: 10px;
 }
@@ -477,7 +515,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 }
 .page-container .single-product-container .single-product-cart-container .single-product-add-to-cart button {
   background-color: #1ee08d;
-  padding: 16px 6rem;
+  padding: 14px 6rem;
   border: none;
   color: white;
   border-radius: 100px;
@@ -554,7 +592,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   background: #ffffff;
   cursor: pointer;
   box-sizing: border-box;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.36);
+  box-shadow: 0px 0px 2px 1px #00000014;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -641,7 +679,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 }
 .page-container .entry-content {
   font-family: "Open Sans", sans-serif;
-  padding-bottom: 20px;
 }
 .page-container .posts-row .posts-column {
   padding: 10px;
@@ -661,7 +698,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 .page-container .posts-row .posts-column .post-container .post-bottom-container {
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 2px 1px #00000014;
   padding: 0px 2rem 20px 2rem;
 }
 .page-container .posts-row .posts-column .post-container .post-bottom-container .post-meta-container {
@@ -791,7 +828,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   padding: 10px 1.5rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 2px 1px #00000014;
 }
 .page-container .sidbar-container .categories-container h2 {
   font-family: "Playfair Display", serif;
@@ -814,7 +851,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   padding: 10px 1.5rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 2px 1px #00000014;
 }
 .page-container .sidbar-container .recent-post-container h2 {
   font-family: "Playfair Display", serif;
@@ -878,6 +915,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   justify-content: space-between;
   align-items: center;
 }
+.page-container .post-navigation .nav-links a {
+  text-decoration: none;
+}
 .page-container .post-navigation .nav-links .meta-nav {
   display: flex;
   align-items: center;
@@ -886,6 +926,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   color: #ffffff;
   padding: 16px 5rem;
   border-radius: 100px;
+}
+.page-container .post-navigation .nav-links .meta-nav:hover {
+  opacity: 0.8;
 }
 .page-container .post-navigation .nav-links .post-title {
   display: none;
@@ -996,6 +1039,166 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 .footer-bottom-bar .footer-right-container span {
   color: white;
   margin: 0 10px;
+}
+
+.contener_general {
+  -webkit-animation: animball_two 1.5s infinite;
+  -moz-animation: animball_two 1.5s infinite;
+  -ms-animation: animball_two 1.5s infinite;
+  animation: animball_two 1.5s infinite;
+  width: 44px;
+  height: 44px;
+}
+
+.contener_mixte {
+  width: 44px;
+  height: 44px;
+  position: absolute;
+}
+
+.ballcolor {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.ball_1,
+.ball_2,
+.ball_3,
+.ball_4 {
+  position: absolute;
+  -webkit-animation: animball_one 1s infinite ease;
+  -moz-animation: animball_one 1s infinite ease;
+  -ms-animation: animball_one 1s infinite ease;
+  animation: animball_one 1s infinite ease;
+}
+
+.ball_1 {
+  background-color: #6a3494;
+  top: 0;
+  left: 0;
+}
+
+.ball_2 {
+  background-color: #1ee08d;
+  top: 0;
+  left: 24px;
+}
+
+.ball_3 {
+  background-color: #1ee08d;
+  top: 24px;
+  left: 0;
+}
+
+.ball_4 {
+  background-color: #6a3494;
+  top: 24px;
+  left: 24px;
+}
+
+@-webkit-keyframes animball_one {
+  0% {
+    position: absolute;
+  }
+  50% {
+    top: 12px;
+    left: 12px;
+    position: absolute;
+    opacity: 0.5;
+  }
+  100% {
+    position: absolute;
+  }
+}
+@-moz-keyframes animball_one {
+  0% {
+    position: absolute;
+  }
+  50% {
+    top: 12px;
+    left: 12px;
+    position: absolute;
+    opacity: 0.5;
+  }
+  100% {
+    position: absolute;
+  }
+}
+@-ms-keyframes animball_one {
+  0% {
+    position: absolute;
+  }
+  50% {
+    top: 12px;
+    left: 12px;
+    position: absolute;
+    opacity: 0.5;
+  }
+  100% {
+    position: absolute;
+  }
+}
+@keyframes animball_one {
+  0% {
+    position: absolute;
+  }
+  50% {
+    top: 12px;
+    left: 12px;
+    position: absolute;
+    opacity: 0.5;
+  }
+  100% {
+    position: absolute;
+  }
+}
+@-webkit-keyframes animball_two {
+  0% {
+    -webkit-transform: rotate(0deg) scale(1);
+  }
+  50% {
+    -webkit-transform: rotate(360deg) scale(1.3);
+  }
+  100% {
+    -webkit-transform: rotate(720deg) scale(1);
+  }
+}
+@-moz-keyframes animball_two {
+  0% {
+    -moz-transform: rotate(0deg) scale(1);
+  }
+  50% {
+    -moz-transform: rotate(360deg) scale(1.3);
+  }
+  100% {
+    -moz-transform: rotate(720deg) scale(1);
+  }
+}
+@-ms-keyframes animball_two {
+  0% {
+    -ms-transform: rotate(0deg) scale(1);
+  }
+  50% {
+    -ms-transform: rotate(360deg) scale(1.3);
+  }
+  100% {
+    -ms-transform: rotate(720deg) scale(1);
+  }
+}
+@keyframes animball_two {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(360deg) scale(1.3);
+  }
+  100% {
+    transform: rotate(720deg) scale(1);
+  }
+}
+.navigation.post-navigation .screen-reader-text {
+  display: none;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,6 +1,8 @@
 /*  Base class
     ========================================================================== */
-
+:root {
+  --primary: #5a5a5a;
+}
 .cuztom {
   width: 100%;
 }
@@ -15,12 +17,27 @@
 .admin-shop-settings {
   padding: 40px 10rem 20px 2rem;
 }
-.admin-shop-settings h1 {
-  margin-bottom: 0 !important;
-  background: #1d2327;
+.admin-shop-settings .input-section {
+  margin-top: 10px;
+  background: white;
   padding: 1rem;
-  color: white;
+  box-shadow: 0px 0px 2px 1px #00000014;
 }
+.admin-shop-settings h2 {
+  margin: 8px 0 8px 0;
+  padding: 0;
+  color: var(--primary);
+}
+.admin-shop-settings #wp-customer_email_message-editor-tools {
+  display: none;
+}
+.admin-shop-settings form input[type="email"].admin_notification_email {
+  width: 100%;
+  margin-top: 0;
+  padding: 0.5rem;
+  border: 1px solid #36363626;
+}
+
 .admin-shop-settings .button-product-settings {
   margin-top: 10px;
   padding: 4px 3rem !important;
@@ -29,7 +46,6 @@
   background-color: #ffffff;
   width: 123%;
   margin-left: -123px;
-  box-shadow: 0px 0px 20px 2px #e2e2e2;
   border-radius: 12px;
   padding: 0;
 }
@@ -314,11 +330,6 @@
   white-space: normal;
 }
 
-/*  Side Meta Box
-    ========================================================================== */
-
-#side-sortables .cuztom-table {
-}
 #side-sortables .cuztom-table th {
   padding: 0 0 10px 0;
   width: 30%;

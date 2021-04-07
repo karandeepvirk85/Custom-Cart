@@ -47,10 +47,8 @@ Class Settings_Controller {
     */
     public static function updateAdminMessages(){
         if(isset($_GET['page']) && $_GET['page'] == 'products_settings'){
-            if (isset($_POST['customer_email_message'])){
-                $strAdminEmailMessage = $_POST['customer_email_message'];
-                update_option('customer_email_message', $strAdminEmailMessage);
-            }
+            isset($_POST['customer_email_message']) ? update_option('customer_email_message', $_POST['customer_email_message']) : ""; 
+            isset($_POST['admin_notification_email']) ? update_option('admin_notification_email', $_POST['admin_notification_email']) : ""; 
         }
     }
 
@@ -61,31 +59,30 @@ Class Settings_Controller {
     public static function createSettingsHtml(){
         if(isset($_GET['page']) && $_GET['page'] == 'products_settings'){
             $strAdminEmailContent = get_option('customer_email_message');
-            
-            // Define Empty Strings
-            $strHtmlFromStart = '';
-            $strHtmlFromEnd = '';
-            // Form Start HTML
-            $strHtmlFromStart .= '<div class="admin-shop-settings">';
-            $strHtmlFromStart .= '<h1>Customer Email Message</h1>';
-            $strHtmlFromStart .= '<form method="post">';
-            // Form End HTML
-            $strHtmlFromEnd .= '<button type="submit" class="button-product-settings button button-primary button-large">Save</button>';
-            $strHtmlFromEnd .= '</form>';
-            $strHtmlFromEnd .= '</div>';
-
-            echo $strHtmlFromStart;
-
-            wp_editor(
-                htmlspecialchars_decode($strAdminEmailContent), 
-                'customer_email_message', 
-                array(
-                    "media_buttons" => false,
-                )
-            );
-
-            echo $strHtmlFromEnd;
-
+            $strAdminEmail = get_option('admin_notification_email');
+            ?>
+             <div class="admin-shop-settings">
+                <form method="post">
+                    <div class="input-section">
+                        <h2>Notificaton Email</h2>
+                        <input type="email" placeholder="Admin email for Notifications" value="<?php echo $strAdminEmail;?>" class="admin_notification_email" name="admin_notification_email">
+                    </div>
+                    <div class="input-section">
+                        <h2>Order Email Message For Customer</h2>
+                        <?php 
+                            wp_editor(
+                                htmlspecialchars_decode($strAdminEmailContent), 
+                                'customer_email_message', 
+                                array(
+                                    "media_buttons" => false,
+                                )
+                            );
+                        ?>
+                    </div>
+                    <button type="submit" class="button-product-settings button button-primary button-large">Save</button>                  
+                </form>
+            </div>
+        <?php
             settings_fields(static::$strSettingId);
             do_settings_sections(static::$strSettingSlug);
         }

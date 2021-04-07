@@ -5,7 +5,6 @@
 Class Order_Controller {
 
     public static $objPostType;
-    public static $emailNotification = 'abc@yahoo.com';
     public static $strPostType = 'shop_order';
     public static $strPostTypePlural = 'shop_orders';
     public static $arrPostTypeBaseLabels = array(
@@ -234,13 +233,9 @@ Class Order_Controller {
      */
     public static function checkOutUser(){
         
-        $firstName  = isset($_GET['firstName']) ? $_GET['firstName'] : "";
-        $lastName   = isset($_GET['lastName']) ? $_GET['lastName'] : "";
-        $userPoints = isset($_GET['userPoints']) ? (int) $_GET['userPoints'] : "";
-        $userEmail  = isset($_GET['userEmail']) ? $_GET['userEmail'] : "";
-        
         $arrReturn  = array(
             'order_id' => '',
+            'user_name' => '',
             'points' => '',
             'products' => '',
             'email' => '',
@@ -248,6 +243,12 @@ Class Order_Controller {
             'message' => '',
             'updated_points' => ''
         );
+
+        $firstName  = isset($_GET['firstName']) ? $_GET['firstName'] : "";
+        $lastName   = isset($_GET['lastName']) ? $_GET['lastName'] : "";
+        $userPoints = isset($_GET['userPoints']) ? (int) $_GET['userPoints'] : "";
+        $userEmail  = isset($_GET['userEmail']) ? $_GET['userEmail'] : "";
+        $strFullName = $firstName.' '.$lastName;
 
         $arrCart                = Products_Controller::getCartFromSession();
         $intTotalPoints         = (int) Products_Controller::getCartTotalPoints();
@@ -282,42 +283,23 @@ Class Order_Controller {
                 $intUpdatedPoints = $userPoints-$intTotalPoints;
                 self::updateInventory();
                 self::sendEmailToAdmin($intOrderId);
-                self::sendEMailToUser($intOrderId);
-                $arrReturn = self::getReturnArray(
-                    $intOrderId,
-                    $intTotalPoints,
-                    $intTotalProducts,
-                    $userEmail,
-                    $intUpdatedPoints
+                self::sendEMailToUser($intOrderId, $userEmail);
+                $strMessage = Theme_Controller::getShakeSuccess('Thank You <strong>'.$strFullName.'</strong> for shopping with us. An email has been sent to <strong>'.$userEmail.'</strong> with all the order details. Your order ID is <strong>#'.$intOrderId.'</strong>');
+                $arrReturn = array(
+                    'order_id' => $intOrderId,
+                    'user_name' => $strFullName,
+                    'points' => $intTotalPoints,
+                    'products' => $intTotalProducts,
+                    'email' => $userEmail,
+                    'success' => true,
+                    'updated_points' => $intUpdatedPoints,
+                    'message'=> $strMessage
                 );
                 self::destroyCart();
             }                
         }
         echo json_encode($arrReturn);
         die;
-    }
-
-    /**
-     * Get Return Object
-     * 
-     */
-    public static function getReturnArray(
-        $intOrderId, 
-        $intTotalPoints, 
-        $intTotalProducts,
-        $userEmail,
-        $intUpdatedPoints
-        ){
-        $arrReturn = array(
-            'order_id' => $intOrderId,
-            'points' => $intTotalPoints,
-            'products' => $intTotalProducts,
-            'email' => $userEmail,
-            'success' => true,
-            'updated_points' => $intUpdatedPoints
-        );
-
-        return $arrReturn;
     }
 
     /**
@@ -345,14 +327,32 @@ Class Order_Controller {
      * Send Email to Admin 
      */
     public static function sendEmailToAdmin($intOrderId){
-        $strToEmail = static::$emailNotification; 
+        $strNotificationEmail = trim(get_option('admin_notification_email'));        
+        $strSubject = "A new order have been placed with order ID ".$intOrderId;
+        $strMessage = "";
+        $strMessage .= "<h2>Order Details</h2>";
+        $strMessage .= self::getCartInformation();
+        $headers    = "MIME-Version: 1.0" . "\r\n";
+        $headers    .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        $headers    .= 'From: <notify@notification.com>' . "\r\n";
+        mail($strNotificationEmail, $strSubject, $strMessage, $headers);
     }
-
+    
     /**
      * Send Email to User 
      */
-    public static function sendEmailToUser($intOrderId){
-
+    public static function sendEmailToUser($intOrderId, $strEmail){
+        $strEmailContent = get_option('customer_email_message');
+        $strEmail = trim(get_option('admin_notification_email'));        
+        $strSubject = "Thank for shopping with us ".$intOrderId;
+        $strMessage = "";
+        $strMessage .= $strEmailContent;
+        $strMessage .= "<h2>Order Details</h2>";
+        $strMessage .= self::getCartInformation();
+        $headers    = "MIME-Version: 1.0" . "\r\n";
+        $headers    .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        $headers    .= 'From: <no-reply@notification.com>' . "\r\n";
+        mail($strEmail, $strSubject, $strMessage, $headers);
     }
 
     /**

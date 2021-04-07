@@ -46,10 +46,10 @@
 			<div class="user-meta-information">
 				<div class="user-meta-spinner"><i class="fa-spin fa fa-cog" aria-hidden="true"></i></div>
 				<div class="user-meta-name">
-				
+					
 				</div>
 				<div class="user-meta-points">
-				
+					<strong>Points:</strong> <span id="user-total-points"><span></strong> 
 				</div>
 			</div>
 		</div>

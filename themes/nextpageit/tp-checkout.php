@@ -3,83 +3,64 @@
  * Template Name: Checkout
  */
 get_header();
-
-// {
-//     "data": {
-//         "id": 74,
-//         "firstName": "Cynthia",
-//         "lastName": "Acosta",
-//         "password": "",
-//         "roleId": 2,
-//         "isBlocked": false,
-//         "email": "sampleuser@yopmail.com",
-//         "gender": "male",
-//         "dob": "0001-01-01T00:00:00Z",
-//         "phoneNumber": "918295458574",
-//         "isPhoneNumberVerified": true,
-//         "isEmailVerified": true,
-//         "token": "9da12e9d-76a2-4c55-a4ae-ce97fcfda8c1",
-//         "addedBy": 0,
-//         "lastModBy": 0,
-//         "addedOn": "2021-03-19T07:42:41Z",
-//         "lastModOn": "2021-03-23T05:54:58Z",
-//         "roleName": "USER",
-//         "isAdmin": false,
-//         "isClient": false,
-//         "isUser": true,
-//         "location": "Ea id facilis odit q",
-//         "parentalStatus": null,
-//         "maritalStatus": null,
-//         "educationLevel": null,
-//         "occupation": null,
-//         "country": "Similique consequatu",
-//         "state": "Non fugit sint dol",
-//         "city": "Tempor impedit ut l",
-//         "town": null,
-//         "pinCode": "173",
-//         "address1": "274 Clarendon Extension",
-//         "address2": "Commodi laborum Atq",
-//         "fileId": 183,
-//         "fileName": null,
-//         "fileUrl": null,
-//         "hasPaymentMethod": false
-//     },
-//     "message": "Successfull",
-//     "status": 200,
-//     "errors": {}
-// }
+$arrCart = Products_Controller::getCartFromSession(); 
 ?>
+
 <div class="page-container">
-    <?php get_template_part( 'template-parts/header/entry-header');?> 
-    <?php get_template_part( 'template-parts/content/content-page');?> 
-    
+    <?php get_template_part('nextpage-templates/entry-header');?> 
+    <?php get_template_part('nextpage-templates/content');?> 
+    <?php if (Products_Controller::getCartTotalPoints()>0 AND Products_Controller::getCartTotalProducts()>0){?>
     <div class="checkout-user-details">
         <div class="spinner-container">
             <div class="account-spinner"><i class="fa-spin fa-3x fa fa-cog" aria-hidden="true"></i></div>
         </div>
-        <div class="account-info-container">
-            <div class="account-info-container-inner">
-                <p>First Name: <span id="account_first_name"></span></p>
-                <p>Last Name: <span id="account_last_name"></span></p>
-                <p>User ID: <span id="account_response_id"></span></p>
-                <p>Password: <span id="account_password"></span></p>
-                <p>Email: <span id="account_email"></span></p>
-                <p>Phone Number: <span id="account_phone_number"></span></p>
-                <p>User Points: <span id="account_user_points"></span></p>
-            </div>
-            <div class="account-info-container-inner">
-                <p>Country: <span id="account_country"></span><p>
-                <p>State: <span id="account_state"></span><p>
-                <p>City: <span id="account_city"></span><p>
-                <p>Town: <span id="account_town"></span><p>
-                <p>PinCode: <span id="account_pinCode"></span><p>
-                <p>Address1: <span id="account_address1"></span><p>
-                <p>Address2: <span id="account_address2"></span><p>
+        <div class="account-info-main">
+            <h2>User Details</h2>
+            <div class="account-info-container">
+                <div class="account-info-container-inner">
+                    <p>First Name: <span id="account_first_name"></span></p>
+                    <p>Last Name: <span id="account_last_name"></span></p>
+                    <p>User ID: <span id="account_response_id"></span></p>
+                    <p>Password: <span id="account_password"></span></p>
+                    <p>Email: <span id="account_email"></span></p>
+                    <p>Phone Number: <span id="account_phone_number"></span></p>
+                    <p>User Points: <span id="account_user_points"></span></p>
+                </div>
+                <div class="account-info-container-inner">
+                    <p>Country: <span id="account_country"></span></p>
+                    <p>State: <span id="account_state"></span></p>
+                    <p>City: <span id="account_city"></span></p>
+                    <p>Town: <span id="account_town"></span></p>
+                    <p>PinCode: <span id="account_pinCode"></span></p>
+                    <p>Address1: <span id="account_address1"></span></p>
+                    <p>Address2: <span id="account_address2"></span></p>
+                </div>
             </div>
         </div>
     </div>
     <p class="after-ajax-call-message"></p>
+    <div class="checkout-bottom-part-animation">
+    <div align="center" class="fond">
+  <div class="contener_general">
+      <div class="contener_mixte"><div class="ballcolor ball_1">&nbsp;</div></div>
+      <div class="contener_mixte"><div class="ballcolor ball_2">&nbsp;</div></div>
+      <div class="contener_mixte"><div class="ballcolor ball_3">&nbsp;</div></div>
+      <div class="contener_mixte"><div class="ballcolor ball_4">&nbsp;</div></div>
+  </div>
+</div>
+    </div>  
     <div class="cart-bottom-part">
+        <div class="cart-details">
+        <h2>Cart Summary</h2>
+            <?php 
+            if(!empty($arrCart)){
+                foreach($arrCart as $key => $strValue){
+                    ?>
+                        <p><a href="<?php echo get_permalink($key);?>"><?php echo get_the_title($key);?></a> x <?php echo $strValue;?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php echo $strValue * Products_Controller::getPoints($key)?></strong> Points</p>
+                <?php }
+            }
+            ?>
+        </div>
         <div class="cart-summary">
             Total Products: <?php echo Products_Controller::getCartTotalProducts(); ?>
             Total Points: <?php echo Products_Controller::getCartTotalPoints();?>
@@ -88,5 +69,9 @@ get_header();
     <div class="cart-checkout-container">
         <button class="checkout-and-reedem">Reedem and Checkout</button>
     </div>
+    <?php } else{
+       echo Theme_Controller::getShakeError('Your cart is empty. Please go back to products page to add some items in the cart.');
+    }
+    ?>
 </div>
 <?php get_footer(); ?>

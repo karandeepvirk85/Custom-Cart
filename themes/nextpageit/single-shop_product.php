@@ -21,8 +21,10 @@ get_header();
             </div>
 
             <div class="single-product-select">
-                <span>Quantity: </span> <input type="number" id="<?php echo $post->ID;?>-quantity" class="product-quantity" maxlength="10">      
-            </div>  
+                <span>Quantity: </span> <input data-product-point="<?php echo Products_Controller::getPoints($post->ID);?>" type="number" id="<?php echo $post->ID;?>-quantity" class="product-quantity">      
+                <span id="points-on-selection"></span>
+            </div>
+
             <div class="single-product-available">
                 <p><span>Available:</span> <?php echo Products_Controller::getAvailableProducts($post->ID)?></p>
             </div>  
@@ -37,7 +39,7 @@ get_header();
     </div>
     <div class="tab">
         <button class="tablinks" onclick="objTheme.openTab(event, 'full-description')" id="defaultOpen">Description</button>
-        <!-- <button class="tablinks" onclick="objTheme.openTab(event, 'Paris')">Paris</button> -->
+        <button class="tablinks" onclick="objTheme.openTab(event, 'extra-tab')">Extra</button>
     </div>
 
     <div id="full-description" class="tabcontent">
@@ -46,11 +48,18 @@ get_header();
         <?php echo Theme_Controller::contentFilter($post->post_content,false);?>
     </div>
 
-    <!-- <div id="Paris" class="tabcontent">
+    <div id="extra-tab" class="tabcontent">
         <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
-        <h3>Paris</h3>
-        <p>Paris is the capital of France.</p> 
-    </div> -->
+        <h3>Extra</h3>
+        <p>More Information can be displayed here.</p> 
+    </div>
+    <?php 
+    the_post_navigation(
+        array(
+            'next_text' => '<p class="meta-nav">Next Product</p>',
+            'prev_text' => '<p class="meta-nav">Previous Product</p>',
+        )
+    );
+    ?>
 </div>
 <?php get_footer();?>
-<?php //echo '<pre>'; var_dump($_SESSION['cart']); echo '</pre>';?>

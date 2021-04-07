@@ -13,9 +13,15 @@ Class Products_Controller{
         'Products' // plural
     );
 
+    // Register Taxonomies
+    public static $arrEventTaxonomies = array(
+        'product_category'=>'Product Category',
+    );
+
     public function __construct() {
         static::createPostType();
         static::createMetaBoxes();
+        static::createTaxonomies();
         add_action('wp_ajax_add-product-to-cart', array(__CLASS__, 'AddToCart'));
         add_action('wp_ajax_nopriv_add-product-to-cart', array(__CLASS__, 'AddToCart'));
         add_action('wp_ajax_remove_item_from_cart', array(__CLASS__,'removeItemFromCart'));
@@ -99,6 +105,48 @@ Class Products_Controller{
             'default'
         );
     }
+
+     /**
+    *Create the taxonomies
+    *
+    */
+    public static function createTaxonomies(){
+
+        $arrTaxonomies = static::$arrEventTaxonomies;
+        $strTaxonomy = '';
+        foreach ($arrTaxonomies as $strTaxonomy => $objTaxonomy) {
+            // Arguments for the taxonomy
+            $arrTaxArgs = array(
+                'public' => true,
+                'show_ui' => true,
+                'show_admin_column' => true,
+                'hierarchical' => true,
+                'query_var' => true
+            );
+            // Create the base labels
+            $arrBaseLabels = array(
+                $objTaxonomy,   // lowercase
+                $objTaxonomy,   // singular
+                $objTaxonomy // Plural
+            );
+            $arrTaxLabels = array(
+                'name'                  => sprintf( _x( '%s', 'taxonomy general name', 'cuztom' ), $arrBaseLabels[2] ),
+                'singular_name'         => sprintf( _x( '%s', 'taxonomy singular name', 'cuztom' ), $arrBaseLabels[1] ),
+                'search_items'          => sprintf( __( 'Search %s', 'cuztom' ), $arrBaseLabels[2] ),
+                'all_items'             => sprintf( __( 'All %s', 'cuztom' ), $arrBaseLabels[2] ),
+                'parent_item'           => sprintf( __( 'Parent %s', 'cuztom' ), $arrBaseLabels[1] ),
+                'parent_item_colon'     => sprintf( __( 'Parent %s:', 'cuztom' ), $arrBaseLabels[1] ),
+                'edit_item'             => sprintf( __( 'Edit %s', 'cuztom' ), $arrBaseLabels[1] ),
+                'update_item'           => sprintf( __( 'Update %s', 'cuztom' ), $arrBaseLabels[1] ),
+                'add_new_item'          => sprintf( __( 'Add New %s', 'cuztom' ), $arrBaseLabels[1] ),
+                'new_item_name'         => sprintf( __( 'New %s Name', 'cuztom' ), $arrBaseLabels[1] ),
+                'menu_name'             => sprintf( __( '%s', 'cuztom' ), $arrBaseLabels[2] )
+            );
+            // Add the tax to the post type
+            $objTaxonomyCategory = register_cuztom_taxonomy($strTaxonomy, static::$strPostType, $arrTaxArgs, $arrTaxLabels);
+        }
+    }
+
     /**
      * Function to return product points from database
      * @param Post ID
@@ -243,10 +291,10 @@ Class Products_Controller{
             // $intOldQuantity = $_SESSION['cart']['products'][$intProductId];
             // $intTotalQuantity = $intOldQuantity+$intQuantity;
             $_SESSION['cart']['products'][$intProductId] = $intQuantity;
-            $arrReturn['success_message'] = Theme_Controller::getShakeSuccess('<i class="fa fa-hand-o-right" aria-hidden="true"></i> Your cart has been <strong> Updated </strong>. Now you have '.$intQuantity.' total items in your cart.');
+            $arrReturn['success_message'] = Theme_Controller::getShakeSuccess(' Your cart has been <strong> Updated </strong>. Now you have '.$intQuantity.' total items in your cart.');
         }else{
             $_SESSION['cart']['products'][$intProductId] = $intQuantity;
-            $arrReturn['success_message'] =  Theme_Controller::getShakeSuccess('<i class="fa fa-hand-o-right" aria-hidden="true"></i> '.$intQuantity.' item has been added to the cart.');
+            $arrReturn['success_message'] =  Theme_Controller::getShakeSuccess($intQuantity.' item has been added to the cart.');
         }
 
         $arrReturn['product_id'] = $intProductId;

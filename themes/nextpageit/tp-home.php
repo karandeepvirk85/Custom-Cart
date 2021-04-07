@@ -16,6 +16,7 @@ if(class_exists('Theme_Controller')){
 <div class="page-container">
     <?php get_template_part('nextpage-templates/entry-header');?> 
     <?php get_template_part('nextpage-templates/content-page');?> 
+    
     <div class="row">
         <div class="col-md-9">
             <div class="row posts-row">
