@@ -20,8 +20,8 @@ wp_footer(); ?>
 		<div class="footer-navbar">
 			<div class="footer-links">
 				<?php 
-				if(class_exists('Menu_Controller')){
-					$arrMenu = Menu_Controller::getMainByMenu('footer-menu');
+				if(class_exists('Theme_Controller')){
+					$arrMenu = Theme_Controller::getMainByMenu('footer-menu');
 					if(count($arrMenu)>0){
 						foreach ($arrMenu as $arrMenuItems){
 							?>

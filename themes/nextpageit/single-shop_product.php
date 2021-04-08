@@ -3,6 +3,8 @@
  * Shop 
  */
 get_header();
+$arrCategories = get_the_terms($post->ID,'product_category');
+$strCategoryLinks = Theme_Controller::getCategoriesLink($arrCategories);
 ?>
 <div class="page-container">
     <div class="single-product-container">
@@ -13,15 +15,18 @@ get_header();
         <div class="single-product-cart-container">
             <div class="single-product-title">
                 <h2><?php echo $post->post_title;?></h2>
-                <p class="animate__fadeInDown animate__animated after-ajax-call-message"></p>
-            </div>
-            
-            <div class="single-product-points">
-                <p><span>Points Per Product:</span> <?php echo Products_Controller::getPoints($post->ID)?></p>
+                <div class="single-product-points">
+                    <p><span>Points:</span> <?php echo Products_Controller::getPoints($post->ID)?></p>
+                </div>
+                <?php get_template_part('nextpage-templates/after-ajax-message');?>
             </div>
 
+            <div class="single-category-link">
+                <h3>Categories: <span><?php echo $strCategoryLinks;?></span><h3>
+            </div>
+            
             <div class="single-product-select">
-                <span>Quantity: </span> <input data-product-point="<?php echo Products_Controller::getPoints($post->ID);?>" type="number" id="<?php echo $post->ID;?>-quantity" class="product-quantity">      
+                <span>Quantity: </span> <input value="1" data-product-point="<?php echo Products_Controller::getPoints($post->ID);?>" type="number" id="<?php echo $post->ID;?>-quantity" class="product-quantity">      
                 <span id="points-on-selection"></span>
             </div>
 

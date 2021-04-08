@@ -21,7 +21,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 }
 
 .top-notification-bar {
-  background-color: #202020;
+  background-color: #000;
 }
 .top-notification-bar p {
   font-family: "Lato", sans-serif;
@@ -174,13 +174,18 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 .user-meta-information {
   display: flex;
   justify-content: flex-start;
-  align-items: left;
+  align-items: center;
   flex-direction: column;
+  width: 12rem;
 }
 .user-meta-information .user-meta-name {
   color: #6a3494;
   font-weight: 700;
   font-family: "Montserrat", sans-serif;
+  font-size: 1.3rem;
+}
+.user-meta-information .user-meta-points {
+  display: none;
 }
 .user-meta-information .user-meta-spinner {
   border-radius: 30px;
@@ -196,12 +201,31 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   justify-content: center;
 }
 
+input[type=number]::-webkit-inner-spin-button {
+  opacity: 1;
+}
+
 .page-container {
   padding: 0px 7rem 20px 7rem;
   overflow: hidden;
   /* Style the tab */
   /* Style the tab content */
   /* Style the close button */
+}
+.page-container .sort-products {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 20px;
+}
+.page-container .sort-products select {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  border-radius: 10px;
+  text-align: left;
+  width: 18rem;
+  height: 44px;
+  padding-left: 8px;
 }
 .page-container .checkout-bottom-part-animation {
   display: none;
@@ -419,11 +443,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 14px 8rem;
+  padding: 14px 4rem;
   transition: 500ms;
-  font-size: 2rem;
-  background: #e6e6e6;
-  border: 1px solid white;
+  font-weight: bold;
+  font-size: 1.5rem;
+  background: #ffffff;
   font-family: "Montserrat", sans-serif;
 }
 .page-container .tab button.tablinks:hover {
@@ -432,13 +456,19 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 .page-container .tab button.tablinks.active {
   background-color: #1ee08d;
   color: #ffffff;
-  border: 2px solid #1ee08d;
 }
 .page-container .tabcontent {
   display: none;
-  padding: 6px 12px;
+  padding: 8px 4rem;
   border: 1px solid #ccc;
   border-top: none;
+  font-family: "Open Sans", sans-serif;
+}
+.page-container .tabcontent h3 {
+  font-family: "Playfair Display", serif;
+  font-style: normal;
+  font-weight: bold;
+  color: #6a3494;
 }
 .page-container .topright {
   float: right;
@@ -452,6 +482,12 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   margin: 30px 0;
   box-shadow: 0px 0px 2px 1px #00000014;
   justify-content: space-around;
+}
+.page-container .single-product-container .single-category-link h3 {
+  font-size: 2rem;
+}
+.page-container .single-product-container .single-category-link h3 span {
+  font-size: 1.5rem;
 }
 .page-container .single-product-container .single-product-image-container .single-product-image {
   padding: 24rem;
@@ -568,10 +604,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   margin-top: 20px;
 }
 .page-container .products-row {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   display: grid;
-  grid-column-gap: 20px;
-  grid-row-gap: 20px;
+  grid-column-gap: 30px;
+  grid-row-gap: 30px;
 }
 @media screen and (min-width: 350px) {
   .page-container .products-row {
@@ -592,7 +628,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   background: #ffffff;
   cursor: pointer;
   box-sizing: border-box;
-  box-shadow: 0px 0px 2px 1px #00000014;
+  box-shadow: 0px 0px 14px 1px #00000026;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -670,7 +706,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   font-family: "Playfair Display", serif;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 @media screen and (max-width: 768px) {
   .page-container h1.page-header-center {
@@ -678,7 +714,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   }
 }
 .page-container .entry-content {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
+  margin-bottom: 30px;
+  color: #414141;
 }
 .page-container .posts-row .posts-column {
   padding: 10px;

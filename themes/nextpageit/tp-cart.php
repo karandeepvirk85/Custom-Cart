@@ -22,16 +22,21 @@ get_header();
         </a>
     </div>
 
-    <p class="after-ajax-call-message"></p>
     <?php 
-        if($intProductsCount > 0){?> 
+        if($intProductsCount > 0){?>
+            <!--Get Ajax Response-->
+            <?php get_template_part('nextpage-templates/after-ajax-message');?>
+            <!--Get Cart Spinner-->
+            <?php get_template_part('nextpage-templates/checkout-spinner');?>
             <!--Get Cart Table-->
-            <?php get_template_part('nextpage-templates/cart');?>
-            <!--Cart Meta Information-->
-            <?php get_template_part( 'nextpage-templates/cart','meta_information',$args);?>
-            <!--Cart Proceed To checkout-->
-            <div class="proceed-to-checkout">
-                <a href="<?php echo home_url().'/checkout';?>">Proceed To Checkout <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+            <div class="cart-and-meta-container">
+                <?php get_template_part('nextpage-templates/cart');?>
+                <!--Cart Meta Information-->
+                <?php get_template_part( 'nextpage-templates/cart','meta_information',$args);?>
+                <!--Cart Proceed To checkout-->
+                <div class="cart-checkout-container">
+                    <button class="checkout-and-reedem">Reedem and Checkout</button>
+                </div>
             </div>
         <?php } else{
             echo Theme_Controller::getShakeError(Theme_Controller::$constantCartEmpty);    

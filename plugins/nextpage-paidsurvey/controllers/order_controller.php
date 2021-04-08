@@ -253,49 +253,65 @@ Class Order_Controller {
         $arrCart                = Products_Controller::getCartFromSession();
         $intTotalPoints         = (int) Products_Controller::getCartTotalPoints();
         $intTotalProducts       = (int) Products_Controller::getCartTotalProducts();
-        if($userPoints<$intTotalPoints){
+        // We dont have user email or first name throw not logged in Error
+        if(empty($userEmail) || empty($strFullName)){
             $arrReturn['success'] = false;
-            $arrReturn['message'] = Theme_Controller::getShakeError('Sorry! You do not have enough points to complete this order');
-        }else{
-            // Insert Order Post
-            $arrOrder = array(
-                'post_type' => 'shop_order',
-                'post_status' => 'publish',
-                'post_content'=> 'Wordpress Order'
-            );
-            $intOrderId = wp_insert_post($arrOrder);
-            
-            // Update Order Post
-            if($intOrderId>0){
-                wp_update_post(
-                    array(
-                        'post_title' => 'Order# '.$intOrderId,
-                        'ID' => $intOrderId
-                    )
-                );
-                // Update Order Meta
-                update_post_meta($intOrderId,'_meta_order_information', $arrCart);
-                update_post_meta($intOrderId,'_meta_order_total_points', $intTotalPoints);
-                update_post_meta($intOrderId,'_meta_order_total_products', $intTotalProducts);
-                update_post_meta($intOrderId,'_meta_information_order_status','pending');
-                update_post_meta($intOrderId,'_meta_order_order_email',$userEmail);
-                update_post_meta($intOrderId,'_meta_order_order_name', $firstName.' '.$lastName);
-                $intUpdatedPoints = $userPoints-$intTotalPoints;
-                self::updateInventory();
-                self::sendEmailToAdmin($intOrderId);
-                self::sendEMailToUser($intOrderId, $userEmail);
-                $strMessage = Theme_Controller::getShakeSuccess('Thank You <strong>'.$strFullName.'</strong> for shopping with us. An email has been sent to <strong>'.$userEmail.'</strong> with all the order details. Your order ID is <strong>#'.$intOrderId.'</strong>');
-                $arrReturn = array(
-                    'order_id' => $intOrderId,
-                    'user_name' => $strFullName,
-                    'points' => $intTotalPoints,
-                    'products' => $intTotalProducts,
-                    'email' => $userEmail,
-                    'success' => true,
-                    'updated_points' => $intUpdatedPoints,
-                    'message'=> $strMessage
-                );
-                self::destroyCart();
+            $arrReturn['message'] = Theme_Controller::getShakeError('Sorry! You are not logged In');
+        }
+        else{
+            // 
+            // If we have email and Name but  Products or Points are less than zero or equal to zero throw error
+            if($intTotalPoints<=0 || $intTotalProducts<=0){
+                $arrReturn['success'] = false;
+                $arrReturn['message'] = Theme_Controller::getShakeError('Sorry! Your cart is empty. You cannot checkout without having products in your cart.');
+            }else{
+                // if user has less points throw error  
+                if($userPoints<$intTotalPoints){
+                    $arrReturn['success'] = false;
+                    $arrReturn['message'] = Theme_Controller::getShakeError('Sorry! You do not have enough points to complete this order');
+                }else{
+                    // Insert Order Post if everything is good
+                    $arrOrder = array(
+                        'post_type' => 'shop_order',
+                        'post_status' => 'publish',
+                        'post_content'=> 'Wordpress Order'
+                    );
+                    $intOrderId = wp_insert_post($arrOrder);
+
+                    // Update Order Post
+                    if($intOrderId>0){
+                        wp_update_post(
+                            array(
+                                'post_title' => 'Order# '.$intOrderId,
+                                'ID' => $intOrderId
+                            )
+                        );
+                
+                        // Update Order Meta
+                        update_post_meta($intOrderId,'_meta_order_information', $arrCart);
+                        update_post_meta($intOrderId,'_meta_order_total_points', $intTotalPoints);
+                        update_post_meta($intOrderId,'_meta_order_total_products', $intTotalProducts);
+                        update_post_meta($intOrderId,'_meta_information_order_status','pending');
+                        update_post_meta($intOrderId,'_meta_order_order_email',$userEmail);
+                        update_post_meta($intOrderId,'_meta_order_order_name', $firstName.' '.$lastName);
+                        $intUpdatedPoints = $userPoints-$intTotalPoints;
+                        self::updateInventory();
+                        self::sendEmailToAdmin($intOrderId);
+                        self::sendEMailToUser($intOrderId, $userEmail);
+                        $strMessage = Theme_Controller::getShakeSuccess('Thank You <strong>'.$strFullName.'</strong> for shopping with us. An email has been sent to <strong>'.$userEmail.'</strong> with all the order details. Your order ID is <strong>#'.$intOrderId.'</strong>');
+                        $arrReturn = array(
+                            'order_id' => $intOrderId,
+                            'user_name' => $strFullName,
+                            'points' => $intTotalPoints,
+                            'products' => $intTotalProducts,
+                            'email' => $userEmail,
+                            'success' => true,
+                            'updated_points' => $intUpdatedPoints,
+                            'message'=> $strMessage
+                        );
+                        self::destroyCart();
+                    }
+                }
             }                
         }
         echo json_encode($arrReturn);

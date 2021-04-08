@@ -11,7 +11,7 @@ License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 @import url(https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Open+Sans:wght@300&family=Playfair+Display:wght@700&display=swap);
-$top-notification-bar-background: #202020;
+$top-notification-bar-background: #000;
 $font-lato: "Lato", sans-serif;
 $font-montserrat: "Montserrat", sans-serif;
 $font-open-sans: "Open Sans", sans-serif;
@@ -188,12 +188,17 @@ $box-shadow: 0px 0px 2px 1px #00000014;
 .user-meta-information {
   display: flex;
   justify-content: flex-start;
-  align-items: left;
+  align-items: center;
   flex-direction: column;
+  width: 12rem;
   .user-meta-name {
     color: $primary-color;
     font-weight: 700;
     font-family: $font-montserrat;
+    font-size: 1.3rem;
+  }
+  .user-meta-points {
+    display: none;
   }
   .user-meta-spinner {
     border-radius: 30px;
@@ -209,8 +214,25 @@ $box-shadow: 0px 0px 2px 1px #00000014;
     justify-content: center;
   }
 }
-
+input[type="number"]::-webkit-inner-spin-button {
+  opacity: 1;
+}
 .page-container {
+  .sort-products {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 20px;
+    select {
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      box-sizing: border-box;
+      border-radius: 10px;
+      text-align: left;
+      width: 18rem;
+      height: 44px;
+      padding-left: 8px;
+    }
+  }
   .checkout-bottom-part-animation {
     display: none;
   }
@@ -437,11 +459,11 @@ $box-shadow: 0px 0px 2px 1px #00000014;
         border: none;
         outline: none;
         cursor: pointer;
-        padding: 14px 8rem;
+        padding: 14px 4rem;
         transition: 500ms;
-        font-size: 2rem;
-        background: #e6e6e6;
-        border: 1px solid white;
+        font-weight: bold;
+        font-size: 1.5rem;
+        background: #ffffff;
         font-family: $font-montserrat;
         &:hover {
           background-color: #ddd;
@@ -449,7 +471,6 @@ $box-shadow: 0px 0px 2px 1px #00000014;
         &.active {
           background-color: $secondary-color;
           color: #ffffff;
-          border: 2px solid $secondary-color;
         }
       }
     }
@@ -457,9 +478,16 @@ $box-shadow: 0px 0px 2px 1px #00000014;
   /* Style the tab content */
   .tabcontent {
     display: none;
-    padding: 6px 12px;
+    padding: 8px 4rem;
     border: 1px solid #ccc;
     border-top: none;
+    font-family: $font-open-sans;
+    h3 {
+      font-family: $font-playfair;
+      font-style: normal;
+      font-weight: bold;
+      color: $primary-color;
+    }
   }
 
   /* Style the close button */
@@ -469,6 +497,14 @@ $box-shadow: 0px 0px 2px 1px #00000014;
     font-size: 28px;
   }
   .single-product-container {
+    .single-category-link {
+      h3 {
+        font-size: 2rem;
+        span {
+          font-size: 1.5rem;
+        }
+      }
+    }
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -605,10 +641,10 @@ $box-shadow: 0px 0px 2px 1px #00000014;
   }
 
   .products-row {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     display: grid;
-    grid-column-gap: 20px;
-    grid-row-gap: 20px;
+    grid-column-gap: 30px;
+    grid-row-gap: 30px;
     @media screen and (min-width: 350px) {
       grid-template-columns: 1fr;
     }
@@ -622,7 +658,7 @@ $box-shadow: 0px 0px 2px 1px #00000014;
       background: #ffffff;
       cursor: pointer;
       box-sizing: border-box;
-      box-shadow: $box-shadow;
+      box-shadow: 0px 0px 14px 1px #00000026;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -714,13 +750,15 @@ $box-shadow: 0px 0px 2px 1px #00000014;
     font-family: $font-playfair;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     @media screen and (max-width: 768px) {
       font-size: 2.5rem;
     }
   }
   .entry-content {
-    font-family: $font-open-sans;
+    font-family: $font-montserrat;
+    margin-bottom: 30px;
+    color: #414141;
   }
 
   .posts-row {

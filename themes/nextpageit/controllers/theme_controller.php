@@ -126,6 +126,20 @@ class Theme_Controller{
     }
 
     /**
+     * Get Catefories Link
+     */
+    public static function getCategoriesLink($arrCategories){
+        $strReturn = '';
+        $arrCategoryName = array();
+        if(!empty($arrCategories)){
+            foreach($arrCategories as $objCategory){
+                $arrCategoryName[] = '<a href="'.get_category_link($objCategory->term_id).'">'.$objCategory->name.'</a>';
+            }
+        }
+        $strReturn = !empty($arrCategoryName) ? implode(', ', $arrCategoryName) : "" ;
+        return $strReturn;
+    }
+    /**
     * 
     * Function to get Wordpress Menu By Name  
     */   

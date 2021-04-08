@@ -29,8 +29,8 @@
 		<div class="right-container">
 			<div class="links-container">
 				<?php 
-				if(class_exists('Menu_Controller')){
-					$arrMenu = Menu_Controller::getMainByMenu('main-menu-desktop');
+				if(class_exists('Theme_Controller')){
+					$arrMenu = Theme_Controller::getMainByMenu('main-menu-desktop');
 					if(count($arrMenu)>0){
 						foreach ($arrMenu as $arrMenuItems){	
 							?>
@@ -44,11 +44,12 @@
 			</div>
 			<?php get_template_part( 'nextpage-templates/searchform' ); ?>
 			<div class="user-meta-information">
-				<div class="user-meta-spinner"><i class="fa-spin fa fa-cog" aria-hidden="true"></i></div>
+				<div class="user-meta-spinner">
+					<i class="fa-spin fa fa-cog" aria-hidden="true"></i></div>
 				<div class="user-meta-name">
 					
 				</div>
-				<div class="user-meta-points">
+				<div class="user-meta-points animate__animated animate__fadeInLeft">
 					<strong>Points:</strong> <span id="user-total-points"><span></strong> 
 				</div>
 			</div>
@@ -70,8 +71,8 @@
 
 		<div class="animate__animated animate__fadeInLeft bottom-links-container" id="bottom-links">
 			<?php 
-				if(class_exists('Menu_Controller')){
-					$arrMenu = Menu_Controller::getMainByMenu('main-menu-desktop');
+				if(class_exists('Theme_Controller')){
+					$arrMenu = Theme_Controller::getMainByMenu('main-menu-desktop');
 					if(count($arrMenu)>0){
 						foreach ($arrMenu as $arrMenuItems){	
 							?>

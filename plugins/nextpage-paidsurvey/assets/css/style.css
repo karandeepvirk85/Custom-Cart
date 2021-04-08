@@ -68,19 +68,19 @@
 #order-pending {
   background-color: #ffbd00;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 6px 0.8rem;
   border-radius: 100px;
 }
 #order-completed {
   background-color: #06b800;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 6px 0.8rem;
   border-radius: 100px;
 }
 #order-failed {
   background-color: #ef0000;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 6px 0.8rem;
   border-radius: 100px;
 }
 #cart-table thead tr th {
