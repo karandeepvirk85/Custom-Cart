@@ -51,6 +51,24 @@ $box-shadow: 0px 0px 2px 1px #00000014;
   color: #ffffff;
   background: $primary-color;
 }
+.alert-danger {
+  background: #d44444;
+  color: #ffffff;
+  box-shadow: 0px 0px 5px 2px #e0e0e0;
+  border: none;
+}
+.alert-warning {
+  background: orange;
+  color: white;
+  box-shadow: 0px 0px 6px -3px #000000;
+  border: none;
+}
+.alert-success {
+  background: #338833;
+  color: white;
+  border: none;
+  box-shadow: 0px 0px 4px 1px #a7a7a7;
+}
 .top-notification-bar {
   background-color: $top-notification-bar-background;
   p {
@@ -218,6 +236,7 @@ input[type="number"]::-webkit-inner-spin-button {
   opacity: 1;
 }
 .page-container {
+  min-height: calc(100vh - 200px);
   .sort-products {
     display: flex;
     justify-content: flex-end;
@@ -320,7 +339,7 @@ input[type="number"]::-webkit-inner-spin-button {
     margin-top: 10px;
     button {
       background-color: $secondary-color;
-      padding: 10px 5rem;
+      padding: 12px 4rem;
       border: none;
       color: white;
       border-radius: 100px;
@@ -355,8 +374,7 @@ input[type="number"]::-webkit-inner-spin-button {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    margin-top: 60px;
-    border-bottom: 2px solid #f3f3f3;
+    margin-top: 30px;
     padding: 0rem 2rem;
     border-radius: 3px;
     .cart-meta-info {
@@ -379,28 +397,13 @@ input[type="number"]::-webkit-inner-spin-button {
     a {
       border: none;
       font-family: $font-montserrat;
-      padding: 16px 4rem;
+      padding: 12px 4rem;
       border-radius: 100px;
       background-color: $primary-color;
       color: white;
     }
   }
-  .proceed-to-checkout {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: flex-end;
-    a {
-      border: none;
-      padding: 16px 4rem;
-      text-decoration: none;
-      border-radius: 100px;
-      background-color: $primary-color;
-      color: white;
-      font-family: $font-montserrat;
-    }
-  }
+
   #cart-table_wrapper {
     margin-top: 20px;
     tbody {
@@ -478,7 +481,7 @@ input[type="number"]::-webkit-inner-spin-button {
   /* Style the tab content */
   .tabcontent {
     display: none;
-    padding: 8px 4rem;
+    padding: 8px 4rem 22px 4rem;
     border: 1px solid #ccc;
     border-top: none;
     font-family: $font-open-sans;
@@ -497,6 +500,11 @@ input[type="number"]::-webkit-inner-spin-button {
     font-size: 28px;
   }
   .single-product-container {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    justify-content: space-around;
+    margin-top: 60px;
     .single-category-link {
       h3 {
         font-size: 1.4rem;
@@ -510,17 +518,12 @@ input[type="number"]::-webkit-inner-spin-button {
         }
       }
     }
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 30px 0;
-    box-shadow: $box-shadow;
-    justify-content: space-around;
     .single-product-image-container {
       .single-product-image {
-        padding: 24rem;
-        background-size: cover;
+        padding: 16rem 24rem;
+        background-size: contain;
         background-repeat: no-repeat;
+        background-position: center;
       }
     }
     .single-product-cart-container {
@@ -543,7 +546,7 @@ input[type="number"]::-webkit-inner-spin-button {
         }
       }
 
-      padding: 20px 6rem 20px 3rem;
+      padding: 0px 6rem 20px 3rem;
       .single-product-title {
         h2 {
           font-family: $font-montserrat;
@@ -551,16 +554,16 @@ input[type="number"]::-webkit-inner-spin-button {
           color: $primary-color;
           font-weight: 700;
           margin: 0;
-          margin-top: 20px;
+          margin-top: 6px;
         }
       }
       .single-product-select {
         span {
           font-weight: 700;
           font-size: 1.4rem;
+          font-size: 1.3rem;
           font-family: $font-montserrat;
           &#points-on-selection {
-            font-size: 1.3rem;
             margin-left: 10px;
             font-family: $font-montserrat;
             color: #636363;
