@@ -59,18 +59,69 @@ class Theme_Controller{
     }
 
     /**
+     * Get Product Sort Value
      * Get Posts
      */
-    public static function getAllPosts($paged, $strPostType){
+    public static function getSortValue(){
+        $strReturn = '';
+        if(isset($_GET['sort_products_by'])){
+            $strReturn = $_GET['sort_products_by'];
+        }
+        return $strReturn;
+    }
+
+    /**
+     * Get WP Posts or Custom Posts Type/
+     */
+    public static function getAllPosts($paged, $strPostType, $intNumberOfPages){
+        
+        // Default Args
+        $arrArgs =  array(
+            'post_type'     => $strPostType, 
+            'post_status'   =>'publish', 
+            'posts_per_page'=> $intNumberOfPages,
+            'paged'         => $paged,
+        );
+        // Sorting Start Here//
+        $strSortBy = '';   
+        // Get Sort Value     
+        $strSortBy = self::getSortValue();
+        // Set Empty Return
+        $arrSortArray = array();
+
+        if(!empty($strSortBy)){
+            if($strSortBy == 'points'){
+                $arrSortArray = array(
+                    'meta_key' => '_meta_information_points_price',
+                    'orderby' => 'meta_value_num',
+                    'order' => 'ASC'
+                );
+            }
+            if($strSortBy == 'available'){
+                $arrSortArray = array(
+                    'meta_key' => '_meta_information_points_qty',
+                    'orderby' => 'meta_value_num',
+                    'order' => 'ASC'
+                );
+            }
+            if($strSortBy == 'name'){
+                $arrSortArray = array(
+                    'orderby' => 'title',
+                    'order' => 'ASC'
+                );
+            }
+        }
+        else{
+            $arrSortArray = array(
+                'orderby' => 'date',
+                'order' => 'DESC'
+            );
+        }
+        if(!empty($arrSortArray)){
+            $arrArgs = array_merge($arrSortArray, $arrArgs);
+        }
         $allPostsWPQuery = new WP_Query(
-            array(
-                'post_type'     => $strPostType, 
-                'post_status'   =>'publish', 
-                'posts_per_page'=> 8,
-                'paged'         => $paged,
-                'orderby'       => 'date',
-                'order'         => 'DESC',  
-            )
+           $arrArgs
         );
         return $allPostsWPQuery;
     }

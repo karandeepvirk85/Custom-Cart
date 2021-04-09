@@ -22,17 +22,18 @@ $strCategoryLinks = Theme_Controller::getCategoriesLink($arrCategories);
             </div>
 
             <div class="single-category-link">
-                <h3>Categories: <span><?php echo $strCategoryLinks;?></span><h3>
+                <h3>Categories: <span><?php echo $strCategoryLinks;?></span></h3>
             </div>
             
+            <div class="single-product-available">
+                <p><span>Available:</span> <?php echo Products_Controller::getAvailableProducts($post->ID)?></p>
+            </div> 
+
             <div class="single-product-select">
                 <span>Quantity: </span> <input value="1" data-product-point="<?php echo Products_Controller::getPoints($post->ID);?>" type="number" id="<?php echo $post->ID;?>-quantity" class="product-quantity">      
                 <span id="points-on-selection"></span>
             </div>
-
-            <div class="single-product-available">
-                <p><span>Available:</span> <?php echo Products_Controller::getAvailableProducts($post->ID)?></p>
-            </div>  
+ 
             <div class="single-product-add-to-cart">
                 <button class ="add-to-cart" data-id="<?php echo $post->ID;?>">Add To Cart</button>
                 <a class="hide-button animate__fadeInUp animate__animated" href="<?php echo home_url()?>/cart">View Cart <i class="fa fa-cart-plus" aria-hidden="true"></i></a>
@@ -59,12 +60,12 @@ $strCategoryLinks = Theme_Controller::getCategoriesLink($arrCategories);
         <p>More Information can be displayed here.</p> 
     </div>
     <?php 
-    the_post_navigation(
-        array(
-            'next_text' => '<p class="meta-nav">Next Product</p>',
-            'prev_text' => '<p class="meta-nav">Previous Product</p>',
-        )
-    );
+    // the_post_navigation(
+    //     array(
+    //         'next_text' => '<p class="meta-nav">Next Product</p>',
+    //         'prev_text' => '<p class="meta-nav">Previous Product</p>',
+    //     )
+    // );
     ?>
 </div>
 <?php get_footer();?>

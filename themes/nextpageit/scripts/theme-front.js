@@ -3,7 +3,6 @@ var objTheme = {
   elementMenuFaIcon: "menu-fa-icon",
   classOpenMenu: "open-menu",
   classRotate: "rotate",
-
   MobileMenuOpenClose: function () {
     var elementLinks = document.getElementById(this.elementLinks);
     var elementMenuFaIcon = document.getElementById(this.elementMenuFaIcon);
@@ -15,6 +14,7 @@ var objTheme = {
       elementMenuFaIcon.classList.remove(this.classRotate);
     }
   },
+
   openTab: function (evt, tabName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -30,11 +30,6 @@ var objTheme = {
   },
 };
 
-var defaultOpen = document.getElementById("defaultOpen");
-if (defaultOpen) {
-  defaultOpen.click();
-}
-
 $(document).ready(function () {
   var objCart = {
     buttonAddToCart: $(".add-to-cart"),
@@ -48,27 +43,44 @@ $(document).ready(function () {
     elementUserInfoContainer: $(".account-info-main"),
     apiUpdatePoints: "https://survey-api.npit.at/api/PointsHistory/Save",
     apiMeToGetData: "https://survey-api.npit.at/api/User/Me",
-    apiToken: "9da12e9d-76a2-4c55-a4ae-ce97fcfda8c1",
     elementAfterAjaxMessage: $(".after-ajax-call-message"),
     elementProductQuantity: $(".product-quantity"),
+    elementUserMetaInfo: $(".user-meta-information"),
     elementShowPoints: $("#points-on-selection"),
+    elementUserSpinner: $(".user-meta-spinner"),
+    elementUserName: $(".user-meta-name"),
+    elementUserPoints: $(".user-meta-points"),
     elementCartTable: $("#cart-table"),
+    elementCartMetaUpdateProducts: $("#cart-meta-products"),
+    elementCartMetaUpdatePoints: $("#cart-meta-points"),
     elementShowUserInfo: $(".account-info-container-inner"),
+    cookieName: "token",
     elementCartAndMeta: $(".cart-and-meta-container"),
+    elementSortProducts: $("#sort-products"),
 
     /**
      * Init Function
      */
     initCart: function () {
       /**
+       * Event: Onload
+       * Action : Open Single Shop Default Tab
+       */
+      var defaultOpen = document.getElementById("defaultOpen");
+      if (defaultOpen) {
+        defaultOpen.click();
+      }
+
+      /**
        * Event: OnLoad
        * Action: Get Data From API
        */
-      this.getDataFromApi();
+      this.getDataFromApi(this.getTokenFromCookie(this.cookieName));
 
       /**
        * Event: Change
        * Action: When user hit add to cat button this action triggers
+       * Type: Event
        */
       this.buttonAddToCart.click(function () {
         objCart.getData(this);
@@ -77,6 +89,7 @@ $(document).ready(function () {
       /**
        * Event: Click
        * Action: When user click on products take him to single product page
+       * Type: Event
        */
       if (this.elementProductContainer.length) {
         objCart.elementProductContainer.click(function () {
@@ -85,8 +98,20 @@ $(document).ready(function () {
       }
 
       /**
+       * Event: onChange
+       * Action: Submit Sorting Form on Change
+       * Type: Event
+       */
+      if (this.elementSortProducts.length) {
+        this.elementSortProducts.change(function () {
+          objCart.submitSortForm(this);
+        });
+      }
+
+      /**
        * Event: Click
        * Action: Checkout User
+       * Type: Event
        */
       this.buttonCheckout.click(function () {
         objCart.checkOutUser();
@@ -95,6 +120,7 @@ $(document).ready(function () {
       /**
        * Event: Click
        * Action: Remove Item from cart
+       * Type: Event
        */
       this.removeItemButton.click(function () {
         objCart.removeItemFromCart(this);
@@ -102,7 +128,8 @@ $(document).ready(function () {
 
       /**
        * Event: Change
-       * Action: When input is changed Update number of products
+       * Action: When input is changed Update number of products on cart view
+       * Type: Event
        */
       this.inputQtyChange.change(function () {
         objCart.inputChangeOnCart(this);
@@ -111,6 +138,7 @@ $(document).ready(function () {
       /**
        * Event: Change
        * Action: When user select number of items on single view Show number of points
+       * Type: Event
        */
       this.elementProductQuantity.change(function () {
         objCart.showLivePoints(this);
@@ -119,6 +147,7 @@ $(document).ready(function () {
       /**
        * Event: OnLoad
        * Action: Trigger Data Table
+       * Type: Event
        */
       if (this.elementCartTable.length) {
         this.cartInit();
@@ -126,10 +155,30 @@ $(document).ready(function () {
     },
 
     /**
+     * This function gets the token from browser cookie
+     * @param {*} strCookieName
+     */
+    getTokenFromCookie: function (strCookieName) {
+      var name = strCookieName + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var splittedCookies = decodedCookie.split(";");
+      for (var i = 0; i < splittedCookies.length; i++) {
+        var singleCookie = splittedCookies[i];
+        while (singleCookie.charAt(0) == " ") {
+          singleCookie = singleCookie.substring(1);
+        }
+        if (singleCookie.indexOf(name) == 0) {
+          return singleCookie.substring(name.length, singleCookie.length);
+        }
+      }
+      return "";
+    },
+
+    /**
      * Asynchronous Request Get Data from API
      * It return all user information
      */
-    getDataFromApi: function () {
+    getDataFromApi: function (strToken) {
       let responseData = "";
       // Set Url
       var strUrl = this.apiMeToGetData;
@@ -140,7 +189,7 @@ $(document).ready(function () {
       // Set Request Header Data Type
       objRequest.setRequestHeader("Accept", "application/json");
       // Set Request Type Header
-      objRequest.setRequestHeader("Authorization", "Bearer " + this.apiToken);
+      objRequest.setRequestHeader("Authorization", "Bearer " + strToken);
       // Set Content Type
       objRequest.setRequestHeader("Content-Type", "");
       // Request On Ready State Change
@@ -150,9 +199,12 @@ $(document).ready(function () {
             responseData = objRequest.responseText;
             if (responseData.length > 0) {
               responseData = JSON.parse(responseData);
-              objCart.setLocalStorage(responseData.data);
-              objCart.showUserHeader(responseData);
-              objCart.showAccountInfo(responseData.data);
+              if (responseData.data != null) {
+                objCart.setLocalStorage(responseData.data);
+                objCart.showUserHeader(responseData.data);
+              } else {
+                objCart.elementUserMetaInfo.hide();
+              }
             }
           }
         }
@@ -183,61 +235,6 @@ $(document).ready(function () {
     },
 
     /**
-     * Show user Information on chackout and My account page
-     * @param {*} responseData
-     */
-    showAccountInfo: function (responseData) {
-      $(".spinner-container").show();
-      if ($("#account_first_name").length) {
-        $("#account_first_name").html(responseData.firstName);
-      }
-      if ($("#account_last_name").length) {
-        $("#account_last_name").html(responseData.lastName);
-      }
-      if ($("#account_response_id").length) {
-        $("#account_response_id").html(responseData.id);
-      }
-      if ($("#account_password").length) {
-        $("#account_password").html(responseData.password);
-      }
-      if ($("#account_email").length) {
-        $("#account_email").html(responseData.email);
-      }
-      if ($("#account_phone_number").length) {
-        $("#account_phone_number").html(responseData.pointBalance);
-      }
-      if ($("#account_user_points").length) {
-        $("#account_user_points").html(responseData.pointBalance);
-      }
-      if ($("#account_country").length) {
-        $("#account_country").html(responseData.country);
-      }
-      if ($("#account_state").length) {
-        $("#account_state").html(responseData.state);
-      }
-      if ($("#account_city").length) {
-        $("#account_city").html(responseData.city);
-      }
-      if ($("#account_town").length) {
-        $("#account_town").html(responseData.town);
-      }
-      if ($("#account_pinCode").length) {
-        $("#account_pinCode").html(responseData.pinCode);
-      }
-      if ($("#account_address1").length) {
-        $("#account_address1").html(responseData.address1);
-      }
-      if ($("#account_address2").length) {
-        $("#account_address2").html(responseData.address2);
-      }
-      if (this.elementShowUserInfo.length) {
-        $(".account-info-container-inner").show();
-        $(".account-info-container").css("display", "flex");
-        $(".account-info-main").show();
-      }
-      $(".spinner-container").hide();
-    },
-    /**
      *  Cart Init Data Table
      */
     cartInit: function () {
@@ -264,7 +261,15 @@ $(document).ready(function () {
      * @param {*} objThis
      */
     throwSpinner: function (objThis) {
-      $(objThis).html('<i class="fa-spin fa fa-cog" aria-hidden="true"></i>');
+      $(objThis).html(this.getIcon("spinner"));
+    },
+
+    /**
+     * Function to submit sorting form on products page
+     * @param {*} objThis
+     */
+    submitSortForm: function (objThis) {
+      objThis.submit();
     },
 
     /**
@@ -272,15 +277,15 @@ $(document).ready(function () {
      * @param {*} responseData
      */
     showUserHeader: function (responseData) {
-      $(".user-meta-spinner").hide();
-      $(".user-meta-points").show();
-      $(".user-meta-name").html(
-        '<i class="fa fa-user-circle" aria-hidden="true"></i> ' +
-          responseData.data.firstName +
+      this.elementUserSpinner.hide();
+      this.elementUserPoints.show();
+      this.elementUserName.html(
+        this.getIcon("user") +
+          responseData.firstName +
           " " +
-          responseData.data.lastName
+          responseData.lastName
       );
-      $("#user-total-points").html(responseData.data.pointBalance);
+      this.elementUpdatePoints.html(responseData.pointBalance);
     },
 
     /**
@@ -331,6 +336,7 @@ $(document).ready(function () {
         this.elementShowPoints.text("");
       }
     },
+
     /**
      * Remove Item From Cart
      * @param {*} objThis
@@ -371,22 +377,23 @@ $(document).ready(function () {
      * @param {*} intUpdatedPoints
      */
     updateCartMeta: function (intUpdatedProducts, intUpdatedPoints) {
-      if ($("#cart-meta-products").length) {
-        $("#cart-meta-products").text(intUpdatedProducts);
+      if (this.elementCartMetaUpdateProducts.length) {
+        this.elementCartMetaUpdateProducts.text(intUpdatedProducts);
       }
-      if ($("#cart-meta-points").length) {
-        $("#cart-meta-points").text(intUpdatedPoints);
+      if (this.elementCartMetaUpdatePoints.length) {
+        this.elementCartMetaUpdatePoints.text(intUpdatedPoints);
       }
     },
 
     /**
-     * CheckOut User
+     * This function CheckOut User
      */
     checkOutUser: function () {
       var userFirst = localStorage.getItem("first-name");
       var lastName = localStorage.getItem("last-name");
       var userPoints = localStorage.getItem("points");
       var userEmail = localStorage.getItem("email");
+      var strToken = objCart.getTokenFromCookie(objCart.cookieName);
 
       objCart.checkOutShowAnimation("init");
       var objData = {
@@ -395,35 +402,25 @@ $(document).ready(function () {
         lastName: lastName,
         userPoints: userPoints,
         userEmail: userEmail,
+        strToken: strToken,
       };
 
       $.getJSON(ajaxurl, objData, function (objResponse) {
         if (objResponse.success == true) {
-          objCart.updateCheckOutAction(objResponse, "success");
+          objCart.updateCheckOutAction(
+            objResponse,
+            "success",
+            objResponse.token
+          );
         } else {
           objCart.elementAfterAjaxMessage.html(objResponse.message);
-          objCart.updateCheckOutAction(objResponse, "failure");
+          objCart.updateCheckOutAction(
+            objResponse,
+            "failure",
+            objResponse.token
+          );
         }
       });
-    },
-
-    /**
-     * Update Check Out View
-     * @param {*} objResponse
-     */
-    updateCheckOutAction: function (objResponse, strType) {
-      if (strType == "success") {
-        objCart.updateUserPoints(
-          objResponse.updated_points,
-          objResponse.points
-        );
-        objCart.removeLocalStorage();
-        objCart.checkOutShowAnimation("success");
-        this.elementAfterAjaxMessage.html(objResponse.message);
-      } else {
-        objCart.checkOutShowAnimation("failure");
-        this.elementAfterAjaxMessage.html(objResponse.message);
-      }
     },
 
     /**
@@ -434,6 +431,26 @@ $(document).ready(function () {
       localStorage.removeItem("last-name");
       localStorage.removeItem("points");
       localStorage.removeItem("email");
+    },
+
+    /**
+     * Update Check Out Action
+     * @param {*} objResponse
+     */
+    updateCheckOutAction: function (objResponse, strType, strToken) {
+      if (strType == "success") {
+        objCart.updateUserPoints(
+          objResponse.updated_points,
+          objResponse.points,
+          strToken
+        );
+        objCart.removeLocalStorage();
+        objCart.checkOutShowAnimation("success");
+        this.elementAfterAjaxMessage.html(objResponse.message);
+      } else {
+        objCart.checkOutShowAnimation("failure");
+        this.elementAfterAjaxMessage.html(objResponse.message);
+      }
     },
 
     /**
@@ -457,13 +474,10 @@ $(document).ready(function () {
      * Post Updated Points
      * @param {*} response
      */
-    updateUserPoints: function (intUpdatedPoints, intPoints) {
+    updateUserPoints: function (intUpdatedPoints, intPoints, strToken) {
       var objPostRequest = new XMLHttpRequest();
       objPostRequest.open("POST", objCart.apiUpdatePoints);
-      objPostRequest.setRequestHeader(
-        "Authorization",
-        "Bearer " + objCart.apiToken
-      );
+      objPostRequest.setRequestHeader("Authorization", "Bearer " + strToken);
       objPostRequest.setRequestHeader("Content-Type", "application/json");
 
       objPostRequest.onreadystatechange = function () {
@@ -500,6 +514,23 @@ $(document).ready(function () {
         this.elementUpdatePoints.html(intPoints);
       }
     },
+
+    /**
+     * Handy function to return icons or HTML
+     * @param {*} strIconType
+     */
+    getIcon: function (strIconType) {
+      var htmlReturn = "";
+      if (strIconType == "user") {
+        htmlReturn = '<i class="fa fa-user-circle" aria-hidden="true"></i> ';
+      }
+      if (strIconType == "spinner") {
+        htmlReturn = '<i class="fa-spin fa fa-cog" aria-hidden="true"></i> ';
+      }
+      return htmlReturn;
+    },
   };
+
+  //Cart Init Function
   objCart.initCart();
 });

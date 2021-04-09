@@ -499,9 +499,14 @@ input[type="number"]::-webkit-inner-spin-button {
   .single-product-container {
     .single-category-link {
       h3 {
-        font-size: 2rem;
+        font-size: 1.4rem;
+        font-weight: bold;
+        font-family: $font-montserrat;
+        color: #000000;
         span {
-          font-size: 1.5rem;
+          font-weight: normal;
+          font-size: 1.4rem;
+          color: #000000;
         }
       }
     }
@@ -541,7 +546,7 @@ input[type="number"]::-webkit-inner-spin-button {
       padding: 20px 6rem 20px 3rem;
       .single-product-title {
         h2 {
-          font-family: "Montserrat", sans-serif;
+          font-family: $font-montserrat;
           font-size: 3rem;
           color: $primary-color;
           font-weight: 700;
@@ -557,7 +562,7 @@ input[type="number"]::-webkit-inner-spin-button {
           &#points-on-selection {
             font-size: 1.3rem;
             margin-left: 10px;
-            font-family: serif;
+            font-family: $font-montserrat;
             color: #636363;
           }
         }
@@ -580,7 +585,7 @@ input[type="number"]::-webkit-inner-spin-button {
         margin-top: 20px;
         button {
           background-color: $secondary-color;
-          padding: 14px 6rem;
+          padding: 10px 6rem;
           border: none;
           color: white;
           border-radius: 100px;
@@ -613,14 +618,13 @@ input[type="number"]::-webkit-inner-spin-button {
       .single-product-available {
         span {
           font-weight: 700;
-          font-family: $font-open-sans;
-          font-size: 1.6rem;
+          font-family: $font-montserrat;
+          font-size: 1.4rem;
         }
         p {
           font-size: 1.5rem;
           color: #000000;
           margin: 0;
-          margin-top: 20px;
         }
       }
       .single-product-points {
@@ -634,17 +638,17 @@ input[type="number"]::-webkit-inner-spin-button {
           color: #000000;
           font-weight: normal;
           margin: 0;
-          margin-top: 20px;
+          margin-top: 4;
         }
       }
     }
   }
 
   .products-row {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     display: grid;
-    grid-column-gap: 30px;
-    grid-row-gap: 30px;
+    grid-column-gap: 25px;
+    grid-row-gap: 25px;
     @media screen and (min-width: 350px) {
       grid-template-columns: 1fr;
     }
@@ -666,7 +670,8 @@ input[type="number"]::-webkit-inner-spin-button {
       padding-bottom: 20px;
       &:hover {
         .image-container-inner {
-          transform: scale(1.2);
+          transform: scale(1.1);
+          filter: saturate(200%);
         }
       }
       .title-container {
@@ -759,6 +764,7 @@ input[type="number"]::-webkit-inner-spin-button {
     font-family: $font-montserrat;
     margin-bottom: 30px;
     color: #414141;
+    font-size: 1.7rem;
   }
 
   .posts-row {
@@ -768,7 +774,7 @@ input[type="number"]::-webkit-inner-spin-button {
       .post-container {
         .post-top-container {
           .post-image {
-            padding: 100px 1rem;
+            padding: 111px 1rem;
             background-position: center;
             background-repeat: no-repeat;
             box-shadow: inset -2px -2px 20px 0px #000000;

@@ -1,9 +1,6 @@
 <?php 
-/**
- * Template Name: Checkout
- */
 get_header();
-$arrCart = Products_Controller::getCartFromSession(); 
+$arrCart = Products_Controller::getCartFromSession();   
 ?>
 
 <div class="page-container">
@@ -75,3 +72,56 @@ $arrCart = Products_Controller::getCartFromSession();
     ?>
 </div>
 <?php get_footer(); ?>
+<script>
+ showAccountInfo: function (responseData) {
+        $(".spinner-container").show();
+        if ($("#account_first_name").length) {
+          $("#account_first_name").html(responseData.firstName);
+        }
+        if ($("#account_last_name").length) {
+          $("#account_last_name").html(responseData.lastName);
+        }
+        if ($("#account_response_id").length) {
+          $("#account_response_id").html(responseData.id);
+        }
+        if ($("#account_password").length) {
+          $("#account_password").html(responseData.password);
+        }
+        if ($("#account_email").length) {
+          $("#account_email").html(responseData.email);
+        }
+        if ($("#account_phone_number").length) {
+          $("#account_phone_number").html(responseData.pointBalance);
+        }
+        if ($("#account_user_points").length) {
+          $("#account_user_points").html(responseData.pointBalance);
+        }
+        if ($("#account_country").length) {
+          $("#account_country").html(responseData.country);
+        }
+        if ($("#account_state").length) {
+          $("#account_state").html(responseData.state);
+        }
+        if ($("#account_city").length) {
+          $("#account_city").html(responseData.city);
+        }
+        if ($("#account_town").length) {
+          $("#account_town").html(responseData.town);
+        }
+        if ($("#account_pinCode").length) {
+          $("#account_pinCode").html(responseData.pinCode);
+        }
+        if ($("#account_address1").length) {
+          $("#account_address1").html(responseData.address1);
+        }
+        if ($("#account_address2").length) {
+          $("#account_address2").html(responseData.address2);
+        }
+        if (this.elementShowUserInfo.length) {
+          $(".account-info-container-inner").show();
+          $(".account-info-container").css("display", "flex");
+          $(".account-info-main").show();
+        }
+        $(".spinner-container").hide();
+      } 
+</script>

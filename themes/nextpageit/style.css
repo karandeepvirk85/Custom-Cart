@@ -484,10 +484,15 @@ input[type=number]::-webkit-inner-spin-button {
   justify-content: space-around;
 }
 .page-container .single-product-container .single-category-link h3 {
-  font-size: 2rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  font-family: "Montserrat", sans-serif;
+  color: #000000;
 }
 .page-container .single-product-container .single-category-link h3 span {
-  font-size: 1.5rem;
+  font-weight: normal;
+  font-size: 1.4rem;
+  color: #000000;
 }
 .page-container .single-product-container .single-product-image-container .single-product-image {
   padding: 24rem;
@@ -529,7 +534,7 @@ input[type=number]::-webkit-inner-spin-button {
 .page-container .single-product-container .single-product-cart-container .single-product-select span#points-on-selection {
   font-size: 1.3rem;
   margin-left: 10px;
-  font-family: serif;
+  font-family: "Montserrat", sans-serif;
   color: #636363;
 }
 .page-container .single-product-container .single-product-cart-container .single-product-select .product-quantity {
@@ -551,7 +556,7 @@ input[type=number]::-webkit-inner-spin-button {
 }
 .page-container .single-product-container .single-product-cart-container .single-product-add-to-cart button {
   background-color: #1ee08d;
-  padding: 14px 6rem;
+  padding: 10px 6rem;
   border: none;
   color: white;
   border-radius: 100px;
@@ -582,14 +587,13 @@ input[type=number]::-webkit-inner-spin-button {
 }
 .page-container .single-product-container .single-product-cart-container .single-product-available span {
   font-weight: 700;
-  font-family: "Open Sans", sans-serif;
-  font-size: 1.6rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.4rem;
 }
 .page-container .single-product-container .single-product-cart-container .single-product-available p {
   font-size: 1.5rem;
   color: #000000;
   margin: 0;
-  margin-top: 20px;
 }
 .page-container .single-product-container .single-product-cart-container .single-product-points span {
   font-weight: 700;
@@ -601,13 +605,13 @@ input[type=number]::-webkit-inner-spin-button {
   color: #000000;
   font-weight: normal;
   margin: 0;
-  margin-top: 20px;
+  margin-top: 4;
 }
 .page-container .products-row {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   display: grid;
-  grid-column-gap: 30px;
-  grid-row-gap: 30px;
+  grid-column-gap: 25px;
+  grid-row-gap: 25px;
 }
 @media screen and (min-width: 350px) {
   .page-container .products-row {
@@ -636,7 +640,8 @@ input[type=number]::-webkit-inner-spin-button {
   padding-bottom: 20px;
 }
 .page-container .products-row .product-main-container:hover .image-container-inner {
-  transform: scale(1.2);
+  transform: scale(1.1);
+  filter: saturate(200%);
 }
 .page-container .products-row .product-main-container .title-container h2 {
   font-family: "Playfair Display", serif;
@@ -717,13 +722,14 @@ input[type=number]::-webkit-inner-spin-button {
   font-family: "Montserrat", sans-serif;
   margin-bottom: 30px;
   color: #414141;
+  font-size: 1.7rem;
 }
 .page-container .posts-row .posts-column {
   padding: 10px;
   cursor: pointer;
 }
 .page-container .posts-row .posts-column .post-container .post-top-container .post-image {
-  padding: 100px 1rem;
+  padding: 111px 1rem;
   background-position: center;
   background-repeat: no-repeat;
   box-shadow: inset -2px -2px 20px 0px #000000;

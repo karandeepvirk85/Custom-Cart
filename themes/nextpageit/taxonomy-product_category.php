@@ -12,7 +12,7 @@ $args = array(
 );
 
 ?>
-<div class="page-container container">
+<div class="page-container">
     <header class="page-header alignwide">
         <?php the_archive_title( '<h1 class="page-title">', '</h1>' ); ?>
     </header>

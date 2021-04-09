@@ -18,8 +18,7 @@ function includeThemeControllers(){
 }
 
 function themeStyles() {
-	wp_enqueue_style('dataTable2','https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css');
-	wp_enqueue_style('dataTable','jquery/dataTables.bootstrap.min.css');	
+	wp_enqueue_style('dataTable2','https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css');	
 	wp_enqueue_style('font-awesome','https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 	wp_enqueue_style('bootstrap-style','https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css',false, '1.0', 'all');
 	wp_enqueue_style('animate','https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');

@@ -49,7 +49,7 @@
 				<div class="user-meta-name">
 					
 				</div>
-				<div class="user-meta-points animate__animated animate__fadeInLeft">
+				<div class="user-meta-points animate__animated animate__fadeInUp">
 					<strong>Points:</strong> <span id="user-total-points"><span></strong> 
 				</div>
 			</div>

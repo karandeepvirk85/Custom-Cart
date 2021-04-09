@@ -28,12 +28,12 @@ while ( have_posts() ) :
 		comments_template();
 	}
 
-	the_post_navigation(
-		array(
-			'next_text' => '<p class="meta-nav">Next Post</p>',
-			'prev_text' => '<p class="meta-nav">Previous Post </p>',
-		)
-	);
+	// the_post_navigation(
+	// 	array(
+	// 		'next_text' => '<p class="meta-nav">Next Post</p>',
+	// 		'prev_text' => '<p class="meta-nav">Previous Post </p>',
+	// 	)
+	// );
 	
 endwhile; // End of the loop.
 ?>

@@ -1,4 +1,4 @@
- <?php
+<?php
 // SEE THE README FOR DOCUMENTATION
 // Initialize the class objects, and add functionality
 
@@ -241,26 +241,27 @@ Class Order_Controller {
             'email' => '',
             'success' => true,
             'message' => '',
-            'updated_points' => ''
+            'updated_points' => '',
+            'token' => ''
         );
 
-        $firstName  = isset($_GET['firstName']) ? $_GET['firstName'] : "";
-        $lastName   = isset($_GET['lastName']) ? $_GET['lastName'] : "";
-        $userPoints = isset($_GET['userPoints']) ? (int) $_GET['userPoints'] : "";
-        $userEmail  = isset($_GET['userEmail']) ? $_GET['userEmail'] : "";
-        $strFullName = $firstName.' '.$lastName;
-
+        $firstName      = isset($_GET['firstName'])     ? $_GET['firstName'] : "";
+        $lastName       = isset($_GET['lastName'])      ? $_GET['lastName'] : "";
+        $userPoints     = isset($_GET['userPoints'])    ? (int) $_GET['userPoints'] : "";
+        $userEmail      = isset($_GET['userEmail'])     ? $_GET['userEmail'] : "";
+        $strToken       = isset($_GET['strToken'])      ? $_GET['strToken'] : "";
+        $strFullName    = $firstName.' '.$lastName;
         $arrCart                = Products_Controller::getCartFromSession();
         $intTotalPoints         = (int) Products_Controller::getCartTotalPoints();
         $intTotalProducts       = (int) Products_Controller::getCartTotalProducts();
         // We dont have user email or first name throw not logged in Error
-        if(empty($userEmail) || empty($strFullName)){
+        if(empty($userEmail) || empty($strFullName) || empty($strToken)){
             $arrReturn['success'] = false;
             $arrReturn['message'] = Theme_Controller::getShakeError('Sorry! You are not logged In');
-        }
+        } 
         else{
             // 
-            // If we have email and Name but  Products or Points are less than zero or equal to zero throw error
+            // If we have email and Name and Token but Products or Points are less than zero or equal to zero throw error
             if($intTotalPoints<=0 || $intTotalProducts<=0){
                 $arrReturn['success'] = false;
                 $arrReturn['message'] = Theme_Controller::getShakeError('Sorry! Your cart is empty. You cannot checkout without having products in your cart.');
@@ -307,7 +308,8 @@ Class Order_Controller {
                             'email' => $userEmail,
                             'success' => true,
                             'updated_points' => $intUpdatedPoints,
-                            'message'=> $strMessage
+                            'message'=> $strMessage,
+                            'token' => $strToken
                         );
                         self::destroyCart();
                     }
