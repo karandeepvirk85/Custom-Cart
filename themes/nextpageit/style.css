@@ -9,7 +9,7 @@ Version: 1
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
-@import url(https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Open+Sans:wght@300&family=Playfair+Display:wght@700&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:wght@700;300;400&family=Open+Sans:wght@300;700;600&family=Playfair+Display:wght@700&display=swap);
 ::-moz-selection {
   color: #ffffff;
   background: #6a3494;
@@ -91,7 +91,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   padding: 20px;
   border-bottom: 1px solid;
 }
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 668px) {
   .header-container-mobile {
     display: none;
   }
@@ -116,7 +116,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
     padding: 0;
   }
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 668px) {
   .header-container-desktop {
     display: none;
   }
@@ -137,6 +137,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+@media screen and (max-width: 1200px) {
+  .header-container-desktop .right-container form {
+    padding: 10px 0;
+  }
 }
 .header-container-desktop .right-container form .search-box {
   background: #fdfdfd;
@@ -183,10 +188,20 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
   font-weight: 700;
   border: 4px solid #6a3494;
   border-top: none;
-  border-radius: 4px;
+  border-radius: 0px;
   border-right: transparent;
   border-left-width: 6px;
   border-left: transparent;
+}
+@media screen and (max-width: 1200px) {
+  .header-container-desktop .right-container .links-container a {
+    padding: 10px 0.6rem;
+  }
+}
+@media screen and (max-width: 900px) {
+  .header-container-desktop .right-container .links-container a {
+    padding: 10px 1rem;
+  }
 }
 .header-container-desktop .right-container .cart-icon-container {
   padding: 10px 1rem;
@@ -487,6 +502,11 @@ input[type=number]::-webkit-inner-spin-button {
   justify-content: space-around;
   margin-top: 60px;
 }
+@media screen and (max-width: 992px) {
+  .page-container .single-product-container {
+    flex-direction: column;
+  }
+}
 .page-container .single-product-container .single-category-link h3 {
   font-size: 1.4rem;
   font-weight: bold;
@@ -498,11 +518,19 @@ input[type=number]::-webkit-inner-spin-button {
   font-size: 1.4rem;
   color: #000000;
 }
+.page-container .single-product-container .single-category-link h3 span a {
+  color: #383838 !important;
+}
 .page-container .single-product-container .single-product-image-container .single-product-image {
   padding: 16rem 24rem;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+}
+@media screen and (max-width: 992px) {
+  .page-container .single-product-container .single-product-image-container .single-product-image {
+    padding: 16rem 18rem;
+  }
 }
 .page-container .single-product-container .single-product-cart-container {
   padding: 0px 6rem 20px 3rem;
@@ -601,12 +629,13 @@ input[type=number]::-webkit-inner-spin-button {
   margin: 0;
 }
 .page-container .single-product-container .single-product-cart-container .single-product-points span {
-  font-weight: 700;
   font-family: "Open Sans", sans-serif;
   font-size: 1.6rem;
+  font-weight: 300;
 }
 .page-container .single-product-container .single-product-cart-container .single-product-points p {
-  font-size: 1.5rem;
+  font-weight: 700;
+  font-size: 1.7rem;
   color: #000000;
   font-weight: normal;
   margin: 0;
@@ -637,7 +666,9 @@ input[type=number]::-webkit-inner-spin-button {
   background: #ffffff;
   cursor: pointer;
   box-sizing: border-box;
-  box-shadow: 0px 0px 14px 1px #00000026;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -651,21 +682,24 @@ input[type=number]::-webkit-inner-spin-button {
 .page-container .products-row .product-main-container .title-container h2 {
   font-family: "Playfair Display", serif;
   color: #6a3494;
-  font-size: 2rem;
-  margin: 10px 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 10px 0 0 0;
 }
 .page-container .products-row .product-main-container .point-container p {
   margin: 10px 0;
   display: inline;
   font-family: "Montserrat", sans-serif;
   font-size: 1.5rem;
+  font-weight: 300;
 }
 .page-container .products-row .product-main-container .button-container button {
-  margin: 10px 0;
+  margin: 14px 0 0 0;
   background-color: #1ee08d;
   font-family: "Montserrat", sans-serif;
   border-radius: 300px;
   border: none;
+  font-weight: 400;
   padding: 12px 5rem;
   color: #ffffff;
 }
@@ -768,7 +802,7 @@ input[type=number]::-webkit-inner-spin-button {
 .page-container .posts-row .posts-column .post-container .post-bottom-container .post-meta-container .post-author {
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 }
 .page-container .posts-row .posts-column .post-container .post-bottom-container .post-meta-container .divider {
   padding: 0 1rem;
@@ -777,13 +811,15 @@ input[type=number]::-webkit-inner-spin-button {
   margin-top: 10px;
   color: #6a3494;
   font-family: "Playfair Display", serif;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 .page-container .posts-row .posts-column .post-container .post-bottom-container .post-content-container {
-  margin-top: 6px;
+  margin-top: 5px;
   color: #414141;
   font-family: "Montserrat", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  font-weight: 300;
   text-decoration: none;
 }
 .page-container .posts-row .posts-column .post-container .post-bottom-container .post-content-container:hover {
@@ -794,10 +830,10 @@ input[type=number]::-webkit-inner-spin-button {
 }
 .page-container .posts-row .posts-column .post-container .post-bottom-container .read-more-container .read-more-link {
   text-decoration: underline;
-  font-weight: 700;
+  font-weight: 600;
   font-family: "Open Sans", sans-serif;
   color: #1ee08d;
-  letter-spacing: 1px;
+  font-size: 1.3rem;
 }
 .page-container .pagination-container {
   margin-top: 30px;
@@ -877,13 +913,14 @@ input[type=number]::-webkit-inner-spin-button {
   padding: 10px 1.5rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  box-shadow: 0px 0px 2px 1px #00000014;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .page-container .sidbar-container .categories-container h2 {
   font-family: "Playfair Display", serif;
   color: #6a3494;
   margin: 0 0 14px 0px;
   font-size: 2.2rem;
+  font-weight: 700;
 }
 .page-container .sidbar-container .categories-container p {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -900,13 +937,14 @@ input[type=number]::-webkit-inner-spin-button {
   padding: 10px 1.5rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  box-shadow: 0px 0px 2px 1px #00000014;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .page-container .sidbar-container .recent-post-container h2 {
   font-family: "Playfair Display", serif;
   color: #6a3494;
   margin: 0 0 14px 0px;
   font-size: 2.2rem;
+  font-weight: 700;
 }
 .page-container .sidbar-container .recent-post-container ul {
   padding: 0 0 0 1.8rem;

@@ -10,7 +10,7 @@ Version: 1
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
-@import url(https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Open+Sans:wght@300&family=Playfair+Display:wght@700&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:wght@700;300;400&family=Open+Sans:wght@300;700;600&family=Playfair+Display:wght@700&display=swap);
 $top-notification-bar-background: #000;
 $font-lato: "Lato", sans-serif;
 $font-montserrat: "Montserrat", sans-serif;
@@ -120,7 +120,7 @@ $box-shadow: 0px 0px 2px 1px #00000014;
       border-bottom: 1px solid;
     }
   }
-  @media screen and (min-width: 500px) {
+  @media screen and (min-width: 668px) {
     display: none;
   }
 }
@@ -144,7 +144,7 @@ $box-shadow: 0px 0px 2px 1px #00000014;
     justify-content: center;
     padding: 0;
   }
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 668px) {
     display: none;
   }
   .right-container {
@@ -160,6 +160,9 @@ $box-shadow: 0px 0px 2px 1px #00000014;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      @media screen and (max-width: 1200px) {
+        padding: 10px 0;
+      }
       .search-box {
         background: #fdfdfd;
         background-image: url(images/search.svg);
@@ -191,10 +194,16 @@ $box-shadow: 0px 0px 2px 1px #00000014;
           font-weight: 700;
           border: 4px solid $primary-color;
           border-top: none;
-          border-radius: 4px;
+          border-radius: 0px;
           border-right: transparent;
           border-left-width: 6px;
           border-left: transparent;
+        }
+        @media screen and (max-width: 1200px) {
+          padding: 10px 0.6rem;
+        }
+        @media screen and (max-width: 900px) {
+          padding: 10px 1rem;
         }
       }
     }
@@ -505,6 +514,9 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
     justify-content: space-around;
     margin-top: 60px;
+    @media screen and (max-width: 992px) {
+      flex-direction: column;
+    }
     .single-category-link {
       h3 {
         font-size: 1.4rem;
@@ -515,6 +527,9 @@ input[type="number"]::-webkit-inner-spin-button {
           font-weight: normal;
           font-size: 1.4rem;
           color: #000000;
+          a {
+            color: #383838 !important;
+          }
         }
       }
     }
@@ -524,6 +539,9 @@ input[type="number"]::-webkit-inner-spin-button {
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
+        @media screen and (max-width: 992px) {
+          padding: 16rem 18rem;
+        }
       }
     }
     .single-product-cart-container {
@@ -632,12 +650,13 @@ input[type="number"]::-webkit-inner-spin-button {
       }
       .single-product-points {
         span {
-          font-weight: 700;
           font-family: $font-open-sans;
           font-size: 1.6rem;
+          font-weight: 300;
         }
         p {
-          font-size: 1.5rem;
+          font-weight: 700;
+          font-size: 1.7rem;
           color: #000000;
           font-weight: normal;
           margin: 0;
@@ -665,7 +684,9 @@ input[type="number"]::-webkit-inner-spin-button {
       background: #ffffff;
       cursor: pointer;
       box-sizing: border-box;
-      box-shadow: 0px 0px 14px 1px #00000026;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      box-sizing: border-box;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -681,8 +702,9 @@ input[type="number"]::-webkit-inner-spin-button {
         h2 {
           font-family: $font-playfair;
           color: $primary-color;
-          font-size: 2rem;
-          margin: 10px 0;
+          font-size: 1.8rem;
+          font-weight: 700;
+          margin: 10px 0 0 0;
         }
       }
       .point-container {
@@ -691,15 +713,17 @@ input[type="number"]::-webkit-inner-spin-button {
           display: inline;
           font-family: $font-montserrat;
           font-size: 1.5rem;
+          font-weight: 300;
         }
       }
       .button-container {
         button {
-          margin: 10px 0;
+          margin: 14px 0 0 0;
           background-color: $secondary-color;
           font-family: $font-montserrat;
           border-radius: 300px;
           border: none;
+          font-weight: 400;
           padding: 12px 5rem;
           color: #ffffff;
           &:hover {
@@ -811,7 +835,7 @@ input[type="number"]::-webkit-inner-spin-button {
             .post-author {
               font-family: $font-montserrat;
               font-weight: 700;
-              font-size: 1.3rem;
+              font-size: 1.4rem;
             }
             .divider {
               padding: 0 1rem;
@@ -822,14 +846,16 @@ input[type="number"]::-webkit-inner-spin-button {
               margin-top: 10px;
               color: $primary-color;
               font-family: $font-playfair;
-              font-size: 1.6rem;
+              font-size: 1.8rem;
+              font-weight: 700;
             }
           }
           .post-content-container {
-            margin-top: 6px;
+            margin-top: 5px;
             color: #414141;
             font-family: $font-montserrat;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            font-weight: 300;
             text-decoration: none;
             &:hover {
               text-decoration: none;
@@ -839,10 +865,10 @@ input[type="number"]::-webkit-inner-spin-button {
             margin-top: 10px;
             .read-more-link {
               text-decoration: underline;
-              font-weight: 700;
+              font-weight: 600;
               font-family: $font-open-sans;
-              color: $secondary-color;
-              letter-spacing: 1px;
+              color: #1ee08d;
+              font-size: 1.3rem;
             }
           }
         }
@@ -915,12 +941,13 @@ input[type="number"]::-webkit-inner-spin-button {
       padding: 10px 1.5rem;
       border: 1px solid rgba(0, 0, 0, 0.1);
       box-sizing: border-box;
-      box-shadow: $box-shadow;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
       h2 {
         font-family: $font-playfair;
         color: $primary-color;
         margin: 0 0 14px 0px;
         font-size: 2.2rem;
+        font-weight: 700;
       }
       p {
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -939,12 +966,13 @@ input[type="number"]::-webkit-inner-spin-button {
       padding: 10px 1.5rem;
       border: 1px solid rgba(0, 0, 0, 0.1);
       box-sizing: border-box;
-      box-shadow: $box-shadow;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
       h2 {
         font-family: $font-playfair;
         color: $primary-color;
         margin: 0 0 14px 0px;
         font-size: 2.2rem;
+        font-weight: 700;
       }
       ul {
         padding: 0 0 0 1.8rem;

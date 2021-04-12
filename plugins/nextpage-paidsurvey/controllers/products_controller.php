@@ -95,6 +95,12 @@ Class Products_Controller{
                 'description' => 'Short Description of the product',
                 'type' => 'textarea',
             ),
+            array(
+                'name' => 'disable_product',
+                'label' => 'Disable Product',
+                'description' => 'Check to disable product',
+                'type' => 'checkbox',
+            ),
         );
         // Create general info metabox
         static::$objPostType->add_meta_box(
@@ -385,6 +391,23 @@ Class Products_Controller{
         $arrReturn['message'] = Theme_Controller::getShakeNotice('<strong>'.get_the_title($intProductId).'</strong> has been removed from your cart');
         echo json_encode($arrReturn);
         die;
+    }
+
+    /**
+     * Is Product Disabled
+     */
+    public static function isProductDisabled($intPostId){
+        $intReturn = false;
+
+        $bolDisabled = get_post_meta($intPostId,'_meta_information_disable_product',0);
+        if(!empty($bolDisabled)){
+            if($bolDisabled[0] == 'on'){
+                $intReturn = true;
+            }else{
+                $intReturn = false;   
+            }
+        }
+        return $intReturn;
     }
 }
 

@@ -11,7 +11,7 @@ $arrCart = Products_Controller::getCartFromSession();
             <th>Product</th>
             <th>Quantity</th>
             <th>Points</th>
-            <th>Remove<td>
+            <th>Remove</th>
         </tr>
     </thead>
     <tbody>
@@ -24,7 +24,7 @@ $arrCart = Products_Controller::getCartFromSession();
                     <td><a href="<?php echo get_permalink($key);?>"><?php echo get_the_title($key);?></a></td>
                     <td><input type="number" id="<?php echo $key;?>" class="cart-qty-change" value="<?php echo $strValue;?>"></td>
                     <td id="single-product-points-<?php echo $key?>"><?php echo $strValue * Products_Controller::getPoints($key)?></td>
-                    <td><i data-id="<?php echo $key;?>" class="remove-item-from-cart fa fa-times"></i><td>
+                    <td><i data-id="<?php echo $key;?>" class="remove-item-from-cart fa fa-times"></i></td>
                 </tr>
             <?php }
         }
