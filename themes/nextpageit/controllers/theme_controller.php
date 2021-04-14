@@ -73,7 +73,7 @@ class Theme_Controller{
     /**
      * Get WP Posts or Custom Posts Type/
      */
-    public static function getAllPosts($paged, $strPostType, $intNumberOfPages){
+    public static function getAllPosts($paged, $strPostType, $intNumberOfPages, $strOrderMeta = null){
         
         // Default Args
         $arrArgs =  array(
@@ -112,10 +112,17 @@ class Theme_Controller{
             }
         }
         else{
-            $arrSortArray = array(
-                'orderby' => 'date',
-                'order' => 'DESC'
-            );
+            if(!empty($orderMeta)){
+                $arrSortArray = array(
+                    'orderby' => 'meta_value_num',
+                    'order' => $orderMeta
+                );    
+            }else{
+                $arrSortArray = array(
+                    'orderby' => 'date',
+                    'order' => 'DESC'
+                );
+            }
         }
         if(!empty($arrSortArray)){
             $arrArgs = array_merge($arrSortArray, $arrArgs);

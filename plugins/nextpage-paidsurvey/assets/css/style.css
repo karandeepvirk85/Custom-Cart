@@ -37,15 +37,16 @@
   padding: 0.5rem;
   border: 1px solid #36363626;
 }
-
+.post-type-shop_order form table tbody tr th:nth-child(1) {
+  width: 15%;
+}
 .admin-shop-settings .button-product-settings {
   margin-top: 10px;
   padding: 4px 3rem !important;
 }
 #cart-table {
   background-color: #ffffff;
-  width: 123%;
-  margin-left: -123px;
+  width: 100%;
   border-radius: 12px;
   padding: 0;
 }
@@ -68,20 +69,32 @@
 #order-pending {
   background-color: #ffbd00;
   color: white;
-  padding: 6px 0.8rem;
-  border-radius: 100px;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
 }
 #order-completed {
   background-color: #06b800;
   color: white;
-  padding: 6px 0.8rem;
-  border-radius: 100px;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+}
+#product-enabled {
+  background: #00ff5e;
+  color: white;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+}
+#product-disabled {
+  background: #ffaa4c;
+  color: white;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
 }
 #order-failed {
   background-color: #ef0000;
   color: white;
-  padding: 6px 0.8rem;
-  border-radius: 100px;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
 }
 #cart-table thead tr th {
   color: white;

@@ -51,7 +51,6 @@ foreach (glob($pattern) as $filename) {
  *
  */
 function Nextpage_admin_enqueues() {
-    wp_enqueue_style('custom-posts-admin', Nextpage_CSS . 'style-admin.css');
     wp_enqueue_script('custom-posts-script-admin', Nextpage_JS . 'scripts-admin.js', array('jquery'), Nextpage_VERSION);
 }
 

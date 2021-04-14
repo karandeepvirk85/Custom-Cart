@@ -1310,3 +1310,51 @@ input[type="number"]::-webkit-inner-spin-button {
     }
   }
 }
+.accordion {
+  background-color: $primary-color;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 14px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 1.5rem;
+  font-family: $font-montserrat;
+  font-weight: 700;
+  transition: 0.4s;
+}
+
+.active,
+.accordion:hover {
+  background-color: #3c3c3c;
+  color: white;
+}
+
+.accordion:after {
+  content: "\002B";
+  color: #ffffff;
+  font-weight: bold;
+  float: right;
+  font-size: 20px;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+  color: $secondary-color;
+}
+
+.panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #ffffff;
+  box-shadow: 0px 1px 5px -1px #a5a5a5;
+  p {
+    padding: 20px 1.6rem;
+  }
+}

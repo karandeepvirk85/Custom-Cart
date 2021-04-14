@@ -173,8 +173,8 @@ Class Products_Controller{
         unset($arrColumns['date']);
         $arrColumns['number_of_points'] = __('No. of Points', 'your_text_domain');
         $arrColumns['quantity'] = __('Quantity', 'your_text_domain');
+        $arrColumns['is_disabled'] = __('Status' , 'your_text_domain');
         $arrColumns['order_date'] = __('Published Date', 'your_text_domain');
-        
         return $arrColumns;
     }
 
@@ -196,6 +196,14 @@ Class Products_Controller{
         if($arrColumns == 'order_date'){
             $intMeta = get_the_time('d F Y (H:i A)',$intPostId);
             echo $intMeta;
+        }
+        if($arrColumns == 'is_disabled'){
+            if(self::isProductDisabled($intPostId)){
+                echo '<span id ="product-disabled">Disabled</span>';
+            }else{
+                echo '<span id ="product-enabled">Enabled</span>';
+
+            }
         }
     }
 
